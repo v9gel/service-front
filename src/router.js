@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Login from "./views/Login";
+import Orders from "./views/Orders";
+import References from "./views/References";
 
 Vue.use(Router)
 
@@ -16,6 +18,16 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/orders',
+      name: 'orders',
+      component: Orders
+    },
+    {
+      path: '/references',
+      name: 'references',
+      component: References
     },
     {
       path: '/about',

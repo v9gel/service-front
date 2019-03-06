@@ -1,20 +1,46 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+      <div v-if="this.$route.name != 'login'">
+          <Navbar></Navbar>
+          <el-row class="tac">
+              <el-col :span="3">
+                  <Sidebar></Sidebar>
+              </el-col>
+              <el-col :span="21">
+                  <router-view/>
+              </el-col>
+          </el-row>
+      </div>
+      <div v-else>
+          <Login></Login>
+      </div>
   </div>
 </template>
+
+<script>
+    // @ is an alias to /src
+    import HelloWorld from '@/components/HelloWorld.vue'
+    import Navbar from "@/components/Navbar";
+    import Sidebar from "@/components/Sidebar";
+    import Login from "./views/Login";
+
+    export default {
+        name: 'app',
+        components: {
+            Login,
+            Sidebar,
+            Navbar,
+            HelloWorld
+        }
+    }
+</script>
 
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
+
+    body {
+        margin: 0px;
+    }
 </style>
