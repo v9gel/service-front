@@ -1,22 +1,12 @@
 <template>
   <div>
-    <router-link to="/login">Страница входа</router-link>
+    <h2>Главная</h2>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
-
 export default {
-  name: 'home',
-  components: {
-    Sidebar,
-    Navbar,
-    HelloWorld
-  }
+  name: 'Home'
 }
 </script>
 

@@ -4,6 +4,8 @@ import Home from './views/Home.vue'
 import Login from "./views/Login";
 import Orders from "./views/Orders";
 import References from "./views/References";
+import Clients from "./views/Clients";
+import Help from "./views/Help";
 
 Vue.use(Router)
 
@@ -28,6 +30,16 @@ export default new Router({
       path: '/references',
       name: 'references',
       component: References
+    },
+    {
+      path: '/references/clients',
+      name: 'clients',
+      component: Clients
+    },
+    {
+      path: '/help',
+      name: 'help',
+      component: Help
     },
     {
       path: '/about',

@@ -1,12 +1,12 @@
 <template>
     <div>
-        <h2>Справочники</h2>
+        <h2>Помощь</h2>
     </div>
 </template>
 
 <script>
     export default {
-        name: "References"
+        name: "Help"
     }
 </script>
 

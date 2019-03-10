@@ -17,7 +17,9 @@
                                 <el-input v-model="formLabelAlign.region" placeholder="******"></el-input>
                             </el-form-item>
                             <el-form-item>
-                                <el-button type="primary" @click="submitForm('dynamicValidateForm')">Войти</el-button>
+                                <router-link :to="{name: 'home'}">
+                                    <el-button type="primary" @click="submitForm('dynamicValidateForm')">Войти</el-button>
+                                </router-link>
                             </el-form-item>
                         </el-form>
                     </div>
