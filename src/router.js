@@ -5,6 +5,7 @@ import Login from "./views/Login";
 import Orders from "./views/Orders";
 import References from "./views/References";
 import Clients from "./views/Clients";
+import OneClient from "./views/OneClient";
 import Help from "./views/Help";
 
 Vue.use(Router)
@@ -35,6 +36,11 @@ export default new Router({
       path: '/references/clients',
       name: 'clients',
       component: Clients
+    },
+    {
+      path: '/references/clients/:id',
+      name: 'one_client',
+      component: OneClient
     },
     {
       path: '/help',

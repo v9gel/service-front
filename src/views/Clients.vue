@@ -30,9 +30,11 @@
                             placeholder="Поиск..."/>
                 </template>
                 <template slot-scope="scope">
-                    <el-button
-                            size="mini"
-                            @click="handleEdit(scope.$index, scope.row)">Изменить</el-button>
+                    <router-link :to="'/references/clients/' + scope.row.id">
+                        <el-button
+                                size="mini"
+                                @click="handleEdit(scope.$index, scope.row)">Изменить</el-button>
+                    </router-link>
                     <el-button
                             size="mini"
                             type="danger"
@@ -51,16 +53,19 @@
         data() {
             return {
                 tableData: [{
+                    id: 1,
                     lastname: 'Иванов',
                     name: 'Иван',
                     surname: 'Иванович',
                     phone: '+79991230000'
                 },{
+                    id: 2,
                     lastname: 'Иванов',
                     name: 'Иван',
                     surname: 'Иванович',
                     phone: '+79991230000'
                 },{
+                    id: 3,
                     lastname: 'Иванов',
                     name: 'Иван',
                     surname: 'Иванович',
