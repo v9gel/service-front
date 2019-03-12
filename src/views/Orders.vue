@@ -2,6 +2,7 @@
     <div>
         <h2>Заказы</h2>
         <Line></Line>
+        <OrderView></OrderView>
         <el-table
                 :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
                 style="width: 100%">
@@ -52,6 +53,7 @@
 </template>
 
 <script>
+    import OrderView from '../components/OrderView'
     export default {
         name: "Orders",
         data() {
@@ -93,6 +95,9 @@
             handleDelete(index, row) {
                 console.log(index, row);
             }
+        },
+        components: {
+            OrderView
         }
     }
 </script>
