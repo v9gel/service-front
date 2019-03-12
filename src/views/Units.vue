@@ -1,12 +1,16 @@
 <template>
     <div>
-        <h2>Производители техники</h2>
+        <h2>Единицы измерения</h2>
         <el-table
                 :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
                 style="width: 100%">
             <el-table-column
                     label="Название"
                     prop="name">
+            </el-table-column>
+            <el-table-column
+                    label="Сокращение"
+                    prop="symbol">
             </el-table-column>
             <el-table-column
                     label="Шифр"
@@ -38,23 +42,24 @@
 
 <script>
     export default {
-        name: "Providers",
+        name: "Units",
         data() {
             return {
                 tableData: [{
                     id: 1,
-                    name: 'Samsung',
-                    code: '010'
-                },
-                {
+                    name: 'Килограмм',
+                    code: '010',
+                    symbol: 'кг.'
+                },{
                     id: 1,
-                    name: 'Samsung',
-                    code: '010'
-                },
-                {
+                    name: 'Килограмм',
+                    code: '010',
+                    symbol: 'кг.'
+                },{
                     id: 1,
-                    name: 'Samsung',
-                    code: '010'
+                    name: 'Килограмм',
+                    code: '010',
+                    symbol: 'кг.'
                 }],
                 search: '',
             }

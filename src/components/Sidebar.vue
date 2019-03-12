@@ -8,7 +8,7 @@
         <el-submenu index="0">
             <template slot="title">
                 <i class="el-icon-goods"></i>
-                <span>Точка Малахова</span>
+                <span>АРМ Точка - Малахова</span>
             </template>
             <el-menu-item index='0-1' :route="{name: 'about'}">О подразделении</el-menu-item>
             <el-menu-item index='0-1' :route="{name: 'login'}">Выйти</el-menu-item>
@@ -28,12 +28,13 @@
             </template>
             <el-menu-item index='3-1' :route="{name: 'clients'}">Клиенты</el-menu-item>
             <el-menu-item index='3-2' :route="{name: 'models'}">Модели</el-menu-item>
-            <el-menu-item index='3-3' :route="{name: 'providers'}">Производители</el-menu-item>
-            <el-menu-item index='3-4' :route="{name: 'views'}">Виды</el-menu-item>
+            <el-menu-item index='3-3' :route="{name: 'providers'}">Производители техники</el-menu-item>
+            <el-menu-item index='3-4' :route="{name: 'views'}">Виды техники</el-menu-item>
             <el-menu-item index='3-5' :route="{name: 'packs'}">Упаковки</el-menu-item>
-            <el-menu-item index='3-6' :route="{name: 'statuces'}">Статусы</el-menu-item>
-            <el-menu-item index='3-7' :route="{name: 'services'}">Услуги</el-menu-item>
-            <el-menu-item index='3-8' :route="{name: 'defects'}">Дефекты</el-menu-item>
+            <el-menu-item index='3-6' :route="{name: 'units'}">Единицы измерения</el-menu-item>
+            <el-menu-item index='3-7' :route="{name: 'statuces'}">Статусы</el-menu-item>
+            <el-menu-item index='3-8' :route="{name: 'services'}">Услуги</el-menu-item>
+            <el-menu-item index='3-9' :route="{name: 'defects'}">Дефекты</el-menu-item>
         </el-submenu>
         <el-menu-item index='4' :route="{name: 'help'}">
             <i class="el-icon-question"></i>

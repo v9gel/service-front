@@ -40,7 +40,7 @@
                 <template slot-scope="scope">
                     <el-button
                             size="mini"
-                            @click="handleEdit(scope.$index, scope.row)">Редактировать</el-button>
+                            @click="handleEdit(scope.$index, scope.row)">Просмотр</el-button>
                     <el-button
                             size="mini"
                             type="danger"

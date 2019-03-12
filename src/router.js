@@ -14,6 +14,7 @@ import Packs from "./views/Packs";
 import Statuces from "./views/Statuces";
 import Services from "./views/Services";
 import Defects from "./views/Defects";
+import Units from "./views/Units";
 
 Vue.use(Router)
 
@@ -68,6 +69,11 @@ export default new Router({
       path: '/references/packs',
       name: 'packs',
       component: Packs
+    },
+    {
+      path: '/references/units',
+      name: 'units',
+      component: Units
     },
     {
       path: '/references/statuces',
