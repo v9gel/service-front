@@ -32,13 +32,8 @@
                 </template>
             </el-table-column>
             <el-table-column
-                    align="right">
-                <template slot="header" slot-scope="scope">
-                    <el-input
-                            v-model="search"
-                            size="mini"
-                            placeholder="Поиск..."/>
-                </template>
+                    align="right"
+                    label="Действия">
                 <template slot-scope="scope">
                     <el-button
                             size="mini"
