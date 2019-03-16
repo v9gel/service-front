@@ -3,6 +3,7 @@
         <h2>Заказы</h2>
         <Line></Line>
         <OrderView></OrderView>
+
         <el-table
                 :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
                 style="width: 100%">

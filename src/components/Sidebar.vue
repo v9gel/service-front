@@ -31,7 +31,6 @@
             <el-menu-item index='3-3' :route="{name: 'providers'}">Производители техники</el-menu-item>
             <el-menu-item index='3-4' :route="{name: 'views'}">Виды техники</el-menu-item>
             <el-menu-item index='3-5' :route="{name: 'packs'}">Упаковки</el-menu-item>
-            <el-menu-item index='3-6' :route="{name: 'units'}">Единицы измерения</el-menu-item>
             <el-menu-item index='3-7' :route="{name: 'statuces'}">Статусы</el-menu-item>
             <el-menu-item index='3-8' :route="{name: 'services'}">Услуги</el-menu-item>
             <el-menu-item index='3-9' :route="{name: 'defects'}">Дефекты</el-menu-item>
