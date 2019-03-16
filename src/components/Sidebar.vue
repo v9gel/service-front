@@ -19,7 +19,7 @@
         </el-menu-item>
         <el-menu-item index='2' :route="{name:'orders'}">
             <i class="el-icon-document"></i>
-            <span>Заказы</span>
+            <span>Наряд-заказы</span>
         </el-menu-item>
         <el-submenu index="3" :route="{name:'references'}">
             <template slot="title">

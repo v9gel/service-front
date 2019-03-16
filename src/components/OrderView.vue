@@ -1,9 +1,9 @@
 <template>
     <div>
-        <el-button type="primary" @click="dialogVisible = true">Прием заказа</el-button>
+        <el-button type="primary" @click="dialogVisible = true">Оформить наряд-заказ</el-button>
 
         <el-dialog
-                title="Прием заказа"
+                title="Наряд заказ"
                 :visible.sync="dialogVisible"
                 width="50%"
                 :before-close="handleClose">
@@ -23,6 +23,9 @@
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
                 <h3>Информация об изделии</h3>
+                <el-form-item label="Серийный номер">
+                    <el-input v-model="form.name"></el-input>
+                </el-form-item>
                 <el-form-item label="Производитель">
                     <el-select v-model="form.region" placeholder="Пожалуйста, выберите производителя" style="width: 100%;">
                         <el-option label="Zone one" value="shanghai"></el-option>

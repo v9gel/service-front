@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>Заказы</h2>
+        <h2>Наряд-заказы</h2>
         <Line></Line>
         <OrderView></OrderView>
 
