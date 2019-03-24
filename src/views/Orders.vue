@@ -6,33 +6,37 @@
 
         <el-collapse v-model="activeNames" @change="handleChange">
             <el-collapse-item title="Фильтр поиска" name="1">
-                <el-row :gutter="20">
-                    <el-form label-position="top" label-width="100px" :model="formLabelAlign">
-                        <el-col :span="6">
-                            <el-form-item label="Изделия">
+                <el-row :gutter="24">
+                    <el-form label-position="left" label-width="170px" :model="formLabelAlign">
+                        <el-col :span="12">
+                            <el-form-item label="Изделие">
                                 <el-input v-model="filter.name"></el-input>
                             </el-form-item>
-                        </el-col>
-                        <el-col :span="6">
-                            <el-form-item label="Начало периоода">
-                                <el-date-picker type="date" placeholder="Pick a date" v-model="filter.start" style="width: 100%;"></el-date-picker>
+                            <el-form-item label="Период">
+                                <template>
+                                    <div class="block">
+                                        <el-date-picker
+                                                v-model="value7"
+                                                type="daterange"
+                                                align="right"
+                                                unlink-panels
+                                                start-placeholder="С"
+                                                end-placeholder="До"
+                                                :picker-options="pickerOptions2">
+                                        </el-date-picker>
+                                    </div>
+                                </template>
                             </el-form-item>
-                            <el-form-item label="Конец периода">
-                                <el-date-picker type="date" placeholder="Pick a date" v-model="filter.end" style="width: 100%;"></el-date-picker>
-                            </el-form-item>
                         </el-col>
-                        <el-col :span="6">
-                            <el-form-item label="Клиенты">
+                        <el-col :span="12">
+                            <el-form-item label="Клиент">
                                 <el-input v-model="filter.client"></el-input>
                             </el-form-item>
-                        </el-col>
-                        <el-col :span="6">
-                            <el-form-item label="Activity type" prop="type">
+                            <el-form-item label="Статус заказа" prop="type">
                                 <el-checkbox-group v-model="filter.status">
-                                    <el-checkbox label="Online activities" name="type"></el-checkbox>
-                                    <el-checkbox label="Promotion activities" name="type"></el-checkbox>
-                                    <el-checkbox label="Offline activities" name="type"></el-checkbox>
-                                    <el-checkbox label="Simple brand exposure" name="type"></el-checkbox>
+                                    <el-checkbox label="В процессе" name="type"></el-checkbox>
+                                    <el-checkbox label="Выполнен" name="type"></el-checkbox>
+                                    <el-checkbox label="Завершен" name="type"></el-checkbox>
                                 </el-checkbox-group>
                             </el-form-item>
                         </el-col>
@@ -325,7 +329,6 @@
     .el-form-item {
         margin-right: 30px;
     }
-
 
 
 </style>
