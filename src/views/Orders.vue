@@ -16,13 +16,13 @@
                                 <template>
                                     <div class="block">
                                         <el-date-picker
-                                                v-model="value7"
+                                                v-model="filter.value11"
                                                 type="daterange"
                                                 align="right"
                                                 unlink-panels
                                                 start-placeholder="С"
                                                 end-placeholder="До"
-                                                :picker-options="pickerOptions2">
+                                                :picker-options="filter.pickerOptions1">
                                         </el-date-picker>
                                     </div>
                                 </template>
@@ -57,13 +57,13 @@
                             <el-col :span="12"><div class="grid-content bg-purple">
                                 <h4>Информация о клиенте</h4>
                                 <el-form-item label="Фамилия">
-                                    <el-input v-model="props.row.client.lastname" autocomplete="off"></el-input>
+                                    <el-input v-model="props.row.client.surname" autocomplete="off"></el-input>
                                 </el-form-item>
                                 <el-form-item label="Имя">
                                     <el-input v-model="props.row.client.name" autocomplete="off"></el-input>
                                 </el-form-item>
                                 <el-form-item label="Отчество">
-                                    <el-input v-model="props.row.client.surname" autocomplete="off"></el-input>
+                                    <el-input v-model="props.row.client.patronymic" autocomplete="off"></el-input>
                                 </el-form-item>
                                 <el-form-item label="Номер телефона">
                                     <el-input v-model="props.row.client.phone"></el-input>
@@ -72,16 +72,16 @@
                             <el-col :span="12"><div class="grid-content bg-purple">
                                 <h4>Информация об изделии</h4>
                                 <el-form-item label="Серийный номер">
-                                    <el-input v-model="props.row.client.lastname" autocomplete="off"></el-input>
+                                    <el-input v-model="props.row.product.serial" autocomplete="off"></el-input>
                                 </el-form-item>
                                 <el-form-item label="Производитель">
-                                    <el-input v-model="props.row.client.name" autocomplete="off"></el-input>
+                                    <el-input v-model="props.row.product.appliances_provider" autocomplete="off"></el-input>
                                 </el-form-item>
                                 <el-form-item label="Вид техники">
-                                    <el-input v-model="props.row.client.surname" autocomplete="off"></el-input>
+                                    <el-input v-model="props.row.product.appliances_view" autocomplete="off"></el-input>
                                 </el-form-item>
                                 <el-form-item label="Модель">
-                                    <el-input v-model="props.row.client.phone"></el-input>
+                                    <el-input v-model="props.row.product.appliances_model"></el-input>
                                 </el-form-item>
                             </div></el-col>
                         </el-row>
@@ -90,7 +90,7 @@
                             <el-col :span="24"><div class="grid-content bg-purple">
                                 <h4>Информация об дефектах</h4>
                                 <el-form-item label="Список дефектов">
-                                    <el-select v-model="value5" multiple placeholder="Пожалуйста, выберите дефекты изделия" style="width: 100%;">
+                                    <el-select v-model="props.row.defect" multiple placeholder="Пожалуйста, выберите дефекты изделия" style="width: 100%;">
                                         <el-option
                                                 v-for="item in options"
                                                 :key="item.value"
@@ -107,7 +107,7 @@
                                 <h4>Проведённые работы (услуги)</h4>
                                 <template>
                                     <el-table
-                                            :data="tableData"
+                                            :data="props.row.tableDataInto"
                                             border
                                             style="width: 100%">
                                         <el-table-column
@@ -134,10 +134,10 @@
                         <el-row :gutter="24">
                             <el-col :span="12"><div class="grid-content bg-purple">
                                 <el-form-item label="Принял">
-                                    <el-input v-model="props.row.client.lastname" autocomplete="off"></el-input>
+                                    <el-input v-model="props.row.accepted" autocomplete="off"></el-input>
                                 </el-form-item>
                                 <el-form-item label="Выполнил">
-                                    <el-input v-model="props.row.client.name" autocomplete="off"></el-input>
+                                    <el-input v-model="props.row.fulfilled" autocomplete="off"></el-input>
                                 </el-form-item>
 
                             </div></el-col>
@@ -146,7 +146,7 @@
                                     <template>
                                         <div class="block">
                                             <el-date-picker
-                                                    v-model="value1"
+                                                    v-model="props.row.date_receipt"
                                                     type="date"
                                                     placeholder="Pick a day">
                                             </el-date-picker>
@@ -157,7 +157,7 @@
                                     <template>
                                         <div class="block">
                                             <el-date-picker
-                                                    v-model="value1"
+                                                    v-model="props.data_completion"
                                                     type="date"
                                                     placeholder="Pick a day">
                                             </el-date-picker>
@@ -173,13 +173,13 @@
                                     <template>
                                         <div class="block">
                                             <el-date-picker
-                                                    v-model="value7"
+                                                    v-model="value21"
                                                     type="daterange"
                                                     align="right"
                                                     unlink-panels
                                                     start-placeholder="Дата начала"
                                                     end-placeholder="Дата завершения"
-                                                    :picker-options="pickerOptions2">
+                                                    :picker-options="row.pickerOptions2">
                                             </el-date-picker>
                                         </div>
                                     </template>
@@ -198,7 +198,7 @@
                     prop="name">
             </el-table-column>
             <el-table-column
-                    label="Дата приемма"
+                    label="Дата приема"
                     prop="date_receipt">
             </el-table-column>
             <el-table-column
@@ -244,15 +244,13 @@
         name: "Orders",
         data() {
             return {
-                pickerOptions2: {
-
-                },
-                value6: '',
-                value7: '',
                 filter: {
                     name: '',
-                    start: '',
-                    end: '',
+                    pickerOptions1: {
+
+                    },
+                    value11: '',
+                    value12: '',
                     client: '',
                     status: []
                 },
@@ -262,27 +260,33 @@
                     date_receipt: '2016-05-03',
                     status: 'Принят',
                     client: {
-                        lastname: 'f',
-                        name: 'f',
                         surname: 'f',
-                        phone: 'f'
-                    }
-                }, {
-                    name: 'Соковыжималка',
-                    client: 'Федоров И.Т.',
-                    date_receipt: '2016-05-03',
-                    status: 'Завершен'
-                },
-                {
-                    name: 'Пылесос',
-                    client: 'Иван В.И.',
-                    date_receipt: '2016-05-03',
-                    status: 'Принят'
-                }, {
-                    name: 'Соковыжималка',
-                    client: 'Федоров И.Т.',
-                    date_receipt: '2016-05-03',
-                    status: 'Завершен'
+                        name: 'f',
+                        patronymic: 'f',
+                        phone: 'f',
+                    },
+                    product: {
+                        serial: '',
+                        date_begin: '',
+                        date_end: '',
+                        appliances_model: '',
+                        appliances_provider: '',
+                        appliances_view: '',
+                    },
+                    defect: [],
+                    tableDataInto: [{
+                        number: '',
+                        name: '',
+                        price: '',
+                    }],
+                    accepted: '',
+                    fulfilled: '',
+                    data_completion: '',
+                    pickerOptions2: {
+
+                    },
+                    value21: '',
+                    value22: '',
                 },
                 ],
                 search: '',

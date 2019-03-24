@@ -115,8 +115,86 @@
 
 <script>
 
+    import OrderView from '../components/OrderView'
     export default {
-        name: "Invoice"
+        name: "Invoice",
+        data() {
+            return {
+                filter: {
+                    name: '',
+                    pickerOptions1: {
+
+                    },
+                    value11: '',
+                    value12: '',
+                    client: '',
+                    status: []
+                },
+                tableData: [{
+                    number: '345',
+                    name: 'Пылесос',
+                    date_receipt: '2016-05-03',
+                    status: 'Принят',
+                    client: {
+                        surname: 'f',
+                        name: 'f',
+                        patronymic: 'f',
+                        phone: 'f',
+                    },
+                    product: {
+                        serial: '',
+                        date_begin: '',
+                        date_end: '',
+                        appliances_model: '',
+                        appliances_provider: '',
+                        appliances_view: '',
+                    },
+                    defect: [],
+                    tableData: [{
+                        number: '',
+                        name: '',
+                        price: '',
+                    }],
+                    accepted: '',
+                    fulfilled: '',
+                    data_completion: '',
+                    pickerOptions2: {
+
+                    },
+                    value21: '',
+                    value22: '',
+                },
+                ],
+                search: '',
+            }
+        },
+        methods: {
+            resetDateFilter() {
+                this.$refs.filterTable.clearFilter('date');
+            },
+            clearFilter() {
+                this.$refs.filterTable.clearFilter();
+            },
+            formatter(row, column) {
+                return row.address;
+            },
+            filterTag(value, row) {
+                return row.tag === value;
+            },
+            filterHandler(value, row, column) {
+                const property = column['property'];
+                return row[property] === value;
+            },
+            handleEdit(index, row) {
+                console.log(index, row);
+            },
+            handleDelete(index, row) {
+                console.log(index, row);
+            }
+        },
+        components: {
+            OrderView
+        }
     }
 
 </script>
