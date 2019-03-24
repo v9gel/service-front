@@ -34,8 +34,8 @@
                             </el-form-item>
                             <el-form-item label="Статус заказа" prop="type">
                                 <el-checkbox-group v-model="filter.status">
-                                    <el-checkbox label="В процессе" name="type"></el-checkbox>
-                                    <el-checkbox label="Выполнен" name="type"></el-checkbox>
+                                    <el-checkbox label="Принят" name="type"></el-checkbox>
+                                    <el-checkbox label="В ремонте" name="type"></el-checkbox>
                                     <el-checkbox label="Завершен" name="type"></el-checkbox>
                                 </el-checkbox-group>
                             </el-form-item>
@@ -52,7 +52,9 @@
                 <template slot-scope="props">
 
                     <el-form label-position='left' ref="form" :model="form" label-width="130px">
-                        <h2>Наряд-заказ №{{props.row.number}}</h2>
+                        <el-row :gutter="24">
+                            <h2>Наряд-заказ №{{props.row.number}}</h2>
+                        </el-row>
                         <el-row :gutter="24">
                             <el-col :span="12"><div class="grid-content bg-purple">
                                 <h4>Информация о клиенте</h4>
@@ -75,13 +77,40 @@
                                     <el-input v-model="props.row.product.serial" autocomplete="off"></el-input>
                                 </el-form-item>
                                 <el-form-item label="Производитель">
-                                    <el-input v-model="props.row.product.appliances_provider" autocomplete="off"></el-input>
+                                    <template>
+                                        <el-select v-model="props.row.appliances_provider" placeholder="">
+                                            <el-option
+                                                    v-for="item in options"
+                                                    :key="item.value"
+                                                    :label="item.label"
+                                                    :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                    </template>
                                 </el-form-item>
                                 <el-form-item label="Вид техники">
-                                    <el-input v-model="props.row.product.appliances_view" autocomplete="off"></el-input>
+                                    <template>
+                                        <el-select v-model="props.row.appliances_view" placeholder="">
+                                            <el-option
+                                                    v-for="item in options"
+                                                    :key="item.value"
+                                                    :label="item.label"
+                                                    :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                    </template>
                                 </el-form-item>
                                 <el-form-item label="Модель">
-                                    <el-input v-model="props.row.product.appliances_model"></el-input>
+                                    <template>
+                                        <el-select v-model="props.row.appliances_model" placeholder="">
+                                            <el-option
+                                                    v-for="item in options"
+                                                    :key="item.value"
+                                                    :label="item.label"
+                                                    :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                    </template>
                                 </el-form-item>
                             </div></el-col>
                         </el-row>
@@ -157,7 +186,7 @@
                                     <template>
                                         <div class="block">
                                             <el-date-picker
-                                                    v-model="props.data_completion"
+                                                    v-model="props.row.data_completion"
                                                     type="date"
                                                     placeholder="Pick a day">
                                             </el-date-picker>
@@ -173,13 +202,13 @@
                                     <template>
                                         <div class="block">
                                             <el-date-picker
-                                                    v-model="value21"
+                                                    v-model="props.row.value21"
                                                     type="daterange"
                                                     align="right"
                                                     unlink-panels
                                                     start-placeholder="Дата начала"
                                                     end-placeholder="Дата завершения"
-                                                    :picker-options="row.pickerOptions2">
+                                                    :picker-options="props.row.pickerOptions2">
                                             </el-date-picker>
                                         </div>
                                     </template>
@@ -247,7 +276,9 @@
                 filter: {
                     name: '',
                     pickerOptions1: {
-
+                        disabledDate(time) {
+                            return time.getTime() > Date.now();
+                        },
                     },
                     value11: '',
                     value12: '',
@@ -275,9 +306,9 @@
                     },
                     defect: [],
                     tableDataInto: [{
-                        number: '',
-                        name: '',
-                        price: '',
+                        number: '1',
+                        name: 'вм',
+                        price: '200',
                     }],
                     accepted: '',
                     fulfilled: '',
@@ -287,8 +318,7 @@
                     },
                     value21: '',
                     value22: '',
-                },
-                ],
+                }],
                 search: '',
             }
         },

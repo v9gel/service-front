@@ -6,34 +6,40 @@
 
         <el-collapse v-model="activeNames" @change="handleChange">
             <el-collapse-item title="Фильтр поиска" name="1">
-                <el-row :gutter="20">
-                    <el-form label-position="top" label-width="100px" :model="formLabelAlign">
-                        <el-col :span="6">
-                            <el-form-item label="Изделия">
+                <el-row :gutter="24">
+                    <el-form label-position="left" label-width="120px" :model="formLabelAlign">
+                        <el-col :span="12">
+                            <el-form-item label="Изделие">
                                 <el-input v-model="filter.name"></el-input>
                             </el-form-item>
-                        </el-col>
-                        <el-col :span="6">
-                            <el-form-item label="Начало периоода">
-                                <el-date-picker type="date" placeholder="Pick a date" v-model="filter.start" style="width: 100%;"></el-date-picker>
+                            <el-form-item label="Период">
+                                <template>
+                                    <div class="block">
+                                        <el-date-picker
+                                                v-model="filter.value11"
+                                                type="daterange"
+                                                align="right"
+                                                unlink-panels
+                                                start-placeholder="С"
+                                                end-placeholder="До"
+                                                :picker-options="filter.pickerOptions1">
+                                        </el-date-picker>
+                                    </div>
+                                </template>
                             </el-form-item>
-                            <el-form-item label="Конец периода">
-                                <el-date-picker type="date" placeholder="Pick a date" v-model="filter.end" style="width: 100%;"></el-date-picker>
-                            </el-form-item>
                         </el-col>
-                        <el-col :span="6">
-                            <el-form-item label="Клиенты">
-                                <el-input v-model="filter.client"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="6">
-                            <el-form-item label="Activity type" prop="type">
-                                <el-checkbox-group v-model="filter.status">
-                                    <el-checkbox label="Online activities" name="type"></el-checkbox>
-                                    <el-checkbox label="Promotion activities" name="type"></el-checkbox>
-                                    <el-checkbox label="Offline activities" name="type"></el-checkbox>
-                                    <el-checkbox label="Simple brand exposure" name="type"></el-checkbox>
-                                </el-checkbox-group>
+                        <el-col :span="12">
+                            <el-form-item label="Получатель">
+                                <template>
+                                    <el-select v-model="filter.subdivision" placeholder="">
+                                        <el-option
+                                                v-for="item in options"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </template>
                             </el-form-item>
                         </el-col>
                     </el-form>
@@ -47,20 +53,82 @@
             <el-table-column type="expand">
                 <template slot-scope="props">
 
-                    <el-form label-position='top' ref="form" :model="form" label-width="120px">
-                        <h3>Наряд-заказ №{{props.row.number}}</h3>
-                        <el-form-item label="Фамилия">
-                            <el-input v-model="props.row.client.lastname"></el-input>
-                        </el-form-item>
-                        <el-form-item label="Имя">
-                            <el-input v-model="props.row.client.name"></el-input>
-                        </el-form-item>
-                        <el-form-item label="Отчество">
-                            <el-input v-model="props.row.client.surname"></el-input>
-                        </el-form-item>
-                        <el-form-item label="Телефон">
-                            <el-input v-model="props.row.client.phone"></el-input>
-                        </el-form-item>
+                    <el-form label-position='top' ref="form" :model="form" label-width="130px">
+                        <el-row :gutter="24">
+                            <h2>Накладная на перемещение №{{props.row.number}}</h2>
+                        </el-row>
+                        <el-row :gutter="24">
+                            <el-col :span="12"><div class="grid-content bg-purple">
+                                <el-form-item label="Номер">
+                                    <el-input v-model="props.row.number" autocomplete="off"></el-input>
+                                </el-form-item>
+                            </div></el-col>
+                            <el-col :span="12"><div class="grid-content bg-purple">
+                                <el-form-item label="Дата составления">
+                                    <el-input v-model="props.row.date_receipt" autocomplete="off"></el-input>
+                                </el-form-item>
+                            </div></el-col>
+                        </el-row>
+
+                        <el-row :gutter="24">
+                            <el-col :span="12"><div class="grid-content bg-purple">
+                                <h3>Отправитель</h3>
+                                <el-row :gutter="24">
+                                    <el-col :span="12"><div class="grid-content bg-purple">
+                                        <el-form-item label="Подразделение">
+                                            <el-input v-model="props.row.sender.subdivision" autocomplete="off"></el-input>
+                                        </el-form-item>
+                                    </div></el-col>
+                                    <el-col :span="12"><div class="grid-content bg-purple">
+                                        <el-form-item label="Вид деятельности">
+                                            <el-input v-model="props.row.sender.activity" autocomplete="off"></el-input>
+                                        </el-form-item>
+                                    </div></el-col>
+                                </el-row>
+                            </div></el-col>
+                            <el-col :span="12"><div class="grid-content bg-purple">
+                                <h3>Получатель</h3>
+                                <el-row :gutter="24">
+                                    <el-col :span="12"><div class="grid-content bg-purple">
+                                        <el-form-item label="Подразделение">
+                                            <el-input v-model="props.row.recipient.subdivision" autocomplete="off"></el-input>
+                                        </el-form-item>
+                                    </div></el-col>
+                                    <el-col :span="12"><div class="grid-content bg-purple">
+                                        <el-form-item label="Вид деятельности">
+                                            <el-input v-model="props.row.recipient.activity" autocomplete="off"></el-input>
+                                        </el-form-item>
+                                    </div></el-col>
+                                </el-row>
+                            </div></el-col>
+                        </el-row>
+
+                        <el-row :gutter="24">
+                            <el-col :span="24"><div class="grid-content bg-purple">
+                                <h3>Перемещаемые изделия</h3>
+                                <template>
+                                    <el-table
+                                            :data="props.row.tableDataProduct"
+                                            border
+                                            style="width: 100%">
+                                        <el-table-column
+                                                prop="number"
+                                                label="№"
+                                                width="50">
+                                        </el-table-column>
+                                        <el-table-column
+                                                prop="appliances_view"
+                                                label="Изделие"
+                                                width="650">
+                                        </el-table-column>
+                                        <el-table-column
+                                                prop="packaging"
+                                                label="Вид упаковки">
+                                        </el-table-column>
+                                    </el-table>
+                                </template>
+                            </div></el-col>
+                        </el-row>
                     </el-form>
                 </template>
             </el-table-column>
@@ -69,28 +137,13 @@
                     width="50">
             </el-table-column>
             <el-table-column
-                    label="Изделие"
-                    prop="name">
+                    width="600"
+                    label="Изделия"
+                    prop="appliances_view">
             </el-table-column>
             <el-table-column
-                    label="Дата приемма"
+                    label="Дата составления"
                     prop="date_receipt">
-            </el-table-column>
-            <el-table-column
-                    label="Клиент"
-                    prop="client.surname">
-            </el-table-column>
-            <el-table-column
-                    prop="status"
-                    label="Статус"
-                    :filters="[{ text: 'Принят', value: 'Принят' }, { text: 'Заершен', value: 'Завершен' }]"
-                    :filter-method="filterTag"
-                    filter-placement="bottom-end">
-                <template slot-scope="scope">
-                    <el-tag
-                            :type="scope.row.status === 'Завершен' ? 'success' : 'default'"
-                            disable-transitions>{{scope.row.status}}</el-tag>
-                </template>
             </el-table-column>
             <el-table-column
                     width="100">
@@ -117,54 +170,43 @@
 
     import OrderView from '../components/OrderView'
     export default {
-        name: "Invoice",
+        name: "Orders",
         data() {
             return {
                 filter: {
-                    name: '',
+                    appliances_view: '',
                     pickerOptions1: {
-
+                        disabledDate(time) {
+                            return time.getTime() > Date.now();
+                        },
                     },
                     value11: '',
                     value12: '',
-                    client: '',
-                    status: []
+                    subdivision: '',
                 },
                 tableData: [{
                     number: '345',
-                    name: 'Пылесос',
+                    appliances_view: 'Пылесос, Утюг',
                     date_receipt: '2016-05-03',
-                    status: 'Принят',
-                    client: {
-                        surname: 'f',
-                        name: 'f',
-                        patronymic: 'f',
-                        phone: 'f',
+                    sender: {
+                        subdivision: 'Склад',
+                        activity: 'Хранение',
                     },
-                    product: {
-                        serial: '',
-                        date_begin: '',
-                        date_end: '',
-                        appliances_model: '',
-                        appliances_provider: '',
-                        appliances_view: '',
+                    recipient: {
+                        subdivision: '',
+                        activity: '',
                     },
-                    defect: [],
-                    tableData: [{
-                        number: '',
-                        name: '',
-                        price: '',
+                    tableDataProduct: [{
+                        number: '1',
+                        appliances_view: 'Утюг',
+                        packaging: 'Ящик',
+                    },
+                    {
+                        number: '2',
+                        appliances_view: 'Пылесос',
+                        packaging: 'Ящик',
                     }],
-                    accepted: '',
-                    fulfilled: '',
-                    data_completion: '',
-                    pickerOptions2: {
-
-                    },
-                    value21: '',
-                    value22: '',
-                },
-                ],
+                }],
                 search: '',
             }
         },
@@ -200,5 +242,14 @@
 </script>
 
 <style scoped>
+    .box-card {
+        width: 100%;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .el-form-item {
+        margin-right: 30px;
+    }
 
 </style>
