@@ -21,6 +21,10 @@
             <i class="el-icon-document"></i>
             <span>Наряд-заказы</span>
         </el-menu-item>
+        <el-menu-item index='2-1' :route="{name:'ordersRepairs'}">
+            <i class="el-icon-document"></i>
+            <span>Наряд-заказы (цех)</span>
+        </el-menu-item>
         <el-menu-item index='3' :route="{name:'invoice'}">
             <i class="el-icon-document"></i>
             <span>Накладные</span>

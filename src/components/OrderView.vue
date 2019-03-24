@@ -10,7 +10,7 @@
 
             <el-form label-position='top' ref="form" :model="form" label-width="120px">
                 <h3>Информация о клиенте</h3>
-                <el-form-item label="Фамилия">
+                <el-form-item width="250" label="Фамилия">
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
                 <el-form-item label="Имя">

@@ -16,6 +16,7 @@ import Services from "./views/Services";
 import Defects from "./views/Defects";
 import Units from "./views/Units";
 import Invoice from "./views/Invoice";
+import OrdersRepairs from "./views/OrdersRepairs";
 
 Vue.use(Router)
 
@@ -35,6 +36,11 @@ export default new Router({
       path: '/orders',
       name: 'orders',
       component: Orders
+    },
+    {
+      path: '/ordersRepairs',
+      name: 'ordersRepairs',
+      component: OrdersRepairs
     },
     {
       path: '/invoice',
