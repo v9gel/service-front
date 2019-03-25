@@ -134,7 +134,6 @@
                         <el-row :gutter="24">
                             <el-col :span="24"><div class="grid-content bg-purple">
                                 <h4>Проведённые работы (услуги)</h4>
-                                <template>
                                     <el-table
                                             :data="props.row.tableDataInto"
                                             border
@@ -144,17 +143,14 @@
                                                 label="№"
                                                 width="50">
                                         </el-table-column>
-                                        <el-table-column
-                                                prop="name"
-                                                label="Наименование"
-                                                width="700">
+                                        <el-table-column label="Наименование" width="700">
+                                            <el-input v-model="props.row.tableDataInto" autocomplete="off"></el-input>
                                         </el-table-column>
                                         <el-table-column
                                                 prop="price"
                                                 label="Цена">
                                         </el-table-column>
                                     </el-table>
-                                </template>
                             </div></el-col>
                         </el-row>
 
@@ -310,7 +306,7 @@
                         name: 'вм',
                         price: '200',
                     }],
-                    accepted: '',
+                    accepted: 'Зейдель',
                     fulfilled: '',
                     data_completion: '',
                     pickerOptions2: {

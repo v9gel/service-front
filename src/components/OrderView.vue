@@ -8,7 +8,7 @@
                 width="50%"
                 :before-close="handleClose">
 
-            <el-form label-position='top' ref="form" :model="form" label-width="120px">
+            <el-form label-position='left' ref="form" :model="form" label-width="150px">
                 <h3>Информация о клиенте</h3>
                 <el-form-item width="250" label="Фамилия">
                     <el-input v-model="form.name"></el-input>
