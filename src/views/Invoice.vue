@@ -4,10 +4,10 @@
         <Line></Line>
         <OrderView></OrderView>
 
-        <el-collapse v-model="activeNames" @change="handleChange">
+        <el-collapse>
             <el-collapse-item title="Фильтр поиска" name="1">
                 <el-row :gutter="24">
-                    <el-form label-position="left" label-width="120px" :model="formLabelAlign">
+                    <el-form label-position="left" label-width="120px">
                         <el-col :span="12">
                             <el-form-item label="Изделие">
                                 <el-input v-model="filter.name"></el-input>
@@ -173,6 +173,9 @@
         name: "Orders",
         data() {
             return {
+                options: [
+                    {value:1, label:1}
+                ],
                 filter: {
                     appliances_view: '',
                     pickerOptions1: {

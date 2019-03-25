@@ -2,9 +2,7 @@
     <el-menu
             default-active="1"
             class="el-menu-vertical-demo"
-            :router="true"
-            @open="handleOpen"
-            @close="handleClose">
+            :router="true">
         <el-submenu index="0">
             <template slot="title">
                 <i class="el-icon-goods"></i>
