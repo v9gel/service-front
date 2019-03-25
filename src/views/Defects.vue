@@ -42,15 +42,7 @@
         name: "Defects",
         data() {
             return {
-                tableData: [{
-                    id: 1,
-                    name: 'Разбитый экран',
-                    code: '0989'
-                },{
-                    id: 1,
-                    name: 'Неполатки питания',
-                    code: '3535'
-                }],
+                tableData: null,
                 search: '',
             }
         },
@@ -60,8 +52,16 @@
             },
             handleDelete(index, row) {
                 console.log(index, row);
-            }
+            },
+            handleUpdate() {
+                this.axios.get(this.$config.API +'references/defects').then((response) => {
+                    this.tableData = response.data
+                });
+            },
         },
+        created() {
+            this.handleUpdate();
+        }
     }
 </script>
 

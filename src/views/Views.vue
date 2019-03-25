@@ -65,8 +65,16 @@
             },
             handleDelete(index, row) {
                 console.log(index, row);
-            }
+            },
+            handleUpdate() {
+                this.axios.get(this.$config.API +'references/views').then((response) => {
+                    this.tableData = response.data
+                });
+            },
         },
+        created() {
+            this.handleUpdate();
+        }
     }
 </script>
 

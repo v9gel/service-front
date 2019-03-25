@@ -37,26 +37,7 @@
         name: "Statuces",
         data() {
             return {
-                tableData: [{
-                    id: 1,
-                    name: 'Принят',
-                    code: '010'
-                },
-                    {
-                        id: 1,
-                        name: 'В ремонте',
-                        code: '010'
-                    },
-                    {
-                        id: 1,
-                        name: 'Завершен',
-                        code: '010'
-                    },
-                    {
-                        id: 1,
-                        name: 'Выдан',
-                        code: '010'
-                    }],
+                tableData: null,
                 search: '',
             }
         },
@@ -66,8 +47,16 @@
             },
             handleDelete(index, row) {
                 console.log(index, row);
-            }
+            },
+            handleUpdate() {
+                this.axios.get(this.$config.API +'references/statuses').then((response) => {
+                    this.tableData = response.data
+                });
+            },
         },
+        created() {
+            this.handleUpdate();
+        }
     }
 </script>
 
