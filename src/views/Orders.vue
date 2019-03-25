@@ -134,23 +134,50 @@
                         <el-row :gutter="24">
                             <el-col :span="24"><div class="grid-content bg-purple">
                                 <h4>Проведённые работы (услуги)</h4>
+                                <template>
                                     <el-table
                                             :data="props.row.tableDataInto"
-                                            border
                                             style="width: 100%">
+                                        <el-table-column type="expand">
+                                            <template slot-scope="props1">
+                                                <el-form label-position='right' ref="form" :model="form" label-width="120px">
+                                                    <el-row :gutter="24">
+                                                        <el-col :span="12"><div class="grid-content bg-purple">
+                                                            <el-form-item label="Наименование">
+                                                                <el-input v-model="props1.row.name" autocomplete="off"></el-input>
+                                                            </el-form-item>
+                                                        </div></el-col>
+                                                        <el-col :span="12"><div class="grid-content bg-purple">
+                                                            <el-form-item label="Цена">
+                                                                <el-input v-model="props1.row.price" autocomplete="off"></el-input>
+                                                            </el-form-item>
+                                                        </div></el-col>
+                                                    </el-row>
+                                                    <el-row :gutter="24">
+                                                        <el-col :span="20"><div class="grid-content bg-purple">
+                                                            " "
+                                                        </div></el-col>
+                                                        <el-col :span="4"><div class="grid-content bg-purple">
+                                                            <el-button type="primary" @click="dialogVisible = false">Сохранить</el-button>
+                                                        </div></el-col>
+                                                    </el-row>
+                                                </el-form>
+                                            </template>
+                                        </el-table-column>
                                         <el-table-column
-                                                prop="number"
                                                 label="№"
-                                                width="50">
-                                        </el-table-column>
-                                        <el-table-column label="Наименование" width="700">
-                                            <el-input v-model="props.row.tableDataInto" autocomplete="off"></el-input>
+                                                prop="number">
                                         </el-table-column>
                                         <el-table-column
-                                                prop="price"
-                                                label="Цена">
+                                                label="Наименование"
+                                                prop="name">
+                                        </el-table-column>
+                                        <el-table-column
+                                                label="Цена"
+                                                prop="price">
                                         </el-table-column>
                                     </el-table>
+                                </template>
                             </div></el-col>
                         </el-row>
 
@@ -305,7 +332,32 @@
                         number: '1',
                         name: 'вм',
                         price: '200',
-                    }],
+                    },
+                        {
+                            number: '1',
+                            name: 'вм',
+                            price: '200',
+                        },
+                        {
+                            number: '1',
+                            name: 'вм',
+                            price: '200',
+                        },
+                        {
+                            number: '1',
+                            name: 'вм',
+                            price: '200',
+                        },
+                        {
+                            number: '1',
+                            name: 'вм',
+                            price: '200',
+                        },
+                        {
+                            number: '1',
+                            name: 'вм',
+                            price: '200',
+                        }],
                     accepted: 'Зейдель',
                     fulfilled: '',
                     data_completion: '',

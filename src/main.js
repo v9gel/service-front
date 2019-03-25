@@ -12,7 +12,7 @@ Vue.use(VueAxios, axios)
 
 const vueConfig = require('vue-config')
 const configs = {
-  API: 'http://localhost:3000/'
+  API: 'https://serv1ce.herokuapp.com/'
 }
 Vue.use(vueConfig, configs)
 
