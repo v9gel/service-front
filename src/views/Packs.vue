@@ -37,21 +37,7 @@
         name: "Packs",
         data() {
             return {
-                tableData: [{
-                    id: 1,
-                    name: 'Коробка',
-                    code: '010'
-                },
-                    {
-                        id: 1,
-                        name: 'Пакет',
-                        code: '010'
-                    },
-                    {
-                        id: 1,
-                        name: 'Бутылка',
-                        code: '010'
-                    }],
+                tableData: null,
                 search: '',
             }
         },
@@ -61,8 +47,16 @@
             },
             handleDelete(index, row) {
                 console.log(index, row);
-            }
+            },
+            handleUpdate() {
+                this.axios.get(this.$config.API +'references/packs').then((response) => {
+                    this.tableData = response.data
+                });
+            },
         },
+        created() {
+            this.handleUpdate();
+        }
     }
 </script>
 
