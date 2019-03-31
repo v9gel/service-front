@@ -1,11 +1,24 @@
 <template>
     <div>
-        <h2>Наряд-заказы</h2>
+        <el-row :gutter="24">
+            <el-col :span="1">
+                <el-button
+                        id="roundButton"
+                        type="success"
+                        size="medium"
+                        icon="el-icon-plus"
+                        circle></el-button>
+
+            </el-col>
+            <el-col :span="23">
+                <h2>Наряд-заказы</h2>
+            </el-col>
+        </el-row>
         <Line></Line>
-        <OrderView></OrderView>
 
         <el-collapse v-model="activeNames" @change="handleChange">
-            <el-collapse-item title="Фильтр поиска" name="1">
+            <h3>Фильтр поиска</h3>
+            <el-collapse-item title="Нажмите, чтобы скрыть" name="1">
                 <el-row :gutter="24">
                     <el-form label-position="left" label-width="170px" :model="formLabelAlign">
                         <el-col :span="12">
@@ -42,6 +55,9 @@
                         </el-col>
                     </el-form>
                 </el-row>
+                <el-row :gutter="24">
+                    <el-button id="searchButton" type="primary" icon="el-icon-search">Поиск</el-button>
+                </el-row>
             </el-collapse-item>
         </el-collapse>
         <el-table
@@ -53,32 +69,43 @@
 
                     <el-form label-position='left' ref="form" :model="form" label-width="130px">
                         <el-row :gutter="24">
-                            <h2>Наряд-заказ №{{props.row.number}}</h2>
+                            <el-col :span="1">
+                                <el-button
+                                        id="roundButton"
+                                        type="primary"
+                                        size="medium"
+                                        icon="el-icon-edit"
+                                        @click="handleEdit(scope.$index, scope.row)"
+                                        circle></el-button>
+                            </el-col>
+                            <el-col :span="23">
+                                <h2>Наряд-заказ №{{props.row.number}}</h2>
+                            </el-col>
                         </el-row>
                         <el-row :gutter="24">
                             <el-col :span="12"><div class="grid-content bg-purple">
-                                <h4>Информация о клиенте</h4>
+                                <h3>Информация о клиенте</h3>
                                 <el-form-item label="Фамилия">
-                                    <el-input v-model="props.row.client.surname" autocomplete="off"></el-input>
+                                    <el-input v-model="props.row.client.surname" autocomplete="off" :disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item label="Имя">
-                                    <el-input v-model="props.row.client.name" autocomplete="off"></el-input>
+                                    <el-input v-model="props.row.client.name" autocomplete="off" :disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item label="Отчество">
-                                    <el-input v-model="props.row.client.patronymic" autocomplete="off"></el-input>
+                                    <el-input v-model="props.row.client.patronymic" autocomplete="off" :disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item label="Номер телефона">
-                                    <el-input v-model="props.row.client.phone"></el-input>
+                                    <el-input v-model="props.row.client.phone" :disabled="true"></el-input>
                                 </el-form-item>
                             </div></el-col>
                             <el-col :span="12"><div class="grid-content bg-purple">
-                                <h4>Информация об изделии</h4>
+                                <h3>Информация об изделии</h3>
                                 <el-form-item label="Серийный номер">
-                                    <el-input v-model="props.row.product.serial" autocomplete="off"></el-input>
+                                    <el-input v-model="props.row.product.serial" autocomplete="off" :disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item label="Производитель">
                                     <template>
-                                        <el-select v-model="props.row.appliances_provider" placeholder="">
+                                        <el-select v-model="props.row.appliances_provider" placeholder="" :disabled="true">
                                             <el-option
                                                     v-for="item in options"
                                                     :key="item.value"
@@ -90,7 +117,7 @@
                                 </el-form-item>
                                 <el-form-item label="Вид техники">
                                     <template>
-                                        <el-select v-model="props.row.appliances_view" placeholder="">
+                                        <el-select v-model="props.row.appliances_view" placeholder="" :disabled="true">
                                             <el-option
                                                     v-for="item in options"
                                                     :key="item.value"
@@ -102,7 +129,7 @@
                                 </el-form-item>
                                 <el-form-item label="Модель">
                                     <template>
-                                        <el-select v-model="props.row.appliances_model" placeholder="">
+                                        <el-select v-model="props.row.appliances_model" placeholder="" :disabled="true">
                                             <el-option
                                                     v-for="item in options"
                                                     :key="item.value"
@@ -117,9 +144,10 @@
 
                         <el-row :gutter="24">
                             <el-col :span="24"><div class="grid-content bg-purple">
-                                <h4>Информация об дефектах</h4>
+                                <h3>Информация об дефектах</h3>
+
                                 <el-form-item label="Список дефектов">
-                                    <el-select v-model="props.row.defect" multiple placeholder="Пожалуйста, выберите дефекты изделия" style="width: 100%;">
+                                    <el-select v-model="props.row.defect" multiple placeholder="Пожалуйста, выберите дефекты изделия" style="width: 100%;" :disabled="true">
                                         <el-option
                                                 v-for="item in options"
                                                 :key="item.value"
@@ -133,48 +161,25 @@
 
                         <el-row :gutter="24">
                             <el-col :span="24"><div class="grid-content bg-purple">
-                                <h4>Проведённые работы (услуги)</h4>
+                                <h3>Проведённые работы (услуги)</h3>
                                 <template>
                                     <el-table
                                             :data="props.row.tableDataInto"
+                                            border
                                             style="width: 100%">
-                                        <el-table-column type="expand">
-                                            <template slot-scope="props1">
-                                                <el-form label-position='right' ref="form" :model="form" label-width="120px">
-                                                    <el-row :gutter="24">
-                                                        <el-col :span="12"><div class="grid-content bg-purple">
-                                                            <el-form-item label="Наименование">
-                                                                <el-input v-model="props1.row.name" autocomplete="off"></el-input>
-                                                            </el-form-item>
-                                                        </div></el-col>
-                                                        <el-col :span="12"><div class="grid-content bg-purple">
-                                                            <el-form-item label="Цена">
-                                                                <el-input v-model="props1.row.price" autocomplete="off"></el-input>
-                                                            </el-form-item>
-                                                        </div></el-col>
-                                                    </el-row>
-                                                    <el-row :gutter="24">
-                                                        <el-col :span="20"><div class="grid-content bg-purple">
-                                                            " "
-                                                        </div></el-col>
-                                                        <el-col :span="4"><div class="grid-content bg-purple">
-                                                            <el-button type="primary" @click="dialogVisible = false">Сохранить</el-button>
-                                                        </div></el-col>
-                                                    </el-row>
-                                                </el-form>
-                                            </template>
-                                        </el-table-column>
                                         <el-table-column
+                                                prop="number"
                                                 label="№"
-                                                prop="number">
+                                                width="50">
                                         </el-table-column>
                                         <el-table-column
+                                                prop="name"
                                                 label="Наименование"
-                                                prop="name">
+                                                width="700">
                                         </el-table-column>
                                         <el-table-column
-                                                label="Цена"
-                                                prop="price">
+                                                prop="price"
+                                                label="Цена">
                                         </el-table-column>
                                     </el-table>
                                 </template>
@@ -182,14 +187,14 @@
                         </el-row>
 
 
-                        <h4>Дополнительная информация</h4>
+                        <h3>Дополнительная информация</h3>
                         <el-row :gutter="24">
                             <el-col :span="12"><div class="grid-content bg-purple">
                                 <el-form-item label="Принял">
-                                    <el-input v-model="props.row.accepted" autocomplete="off"></el-input>
+                                    <el-input v-model="props.row.accepted" autocomplete="off" :disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item label="Выполнил">
-                                    <el-input v-model="props.row.fulfilled" autocomplete="off"></el-input>
+                                    <el-input v-model="props.row.fulfilled" autocomplete="off" :disabled="true"></el-input>
                                 </el-form-item>
 
                             </div></el-col>
@@ -198,9 +203,10 @@
                                     <template>
                                         <div class="block">
                                             <el-date-picker
+                                                    :disabled="true"
                                                     v-model="props.row.date_receipt"
                                                     type="date"
-                                                    placeholder="Pick a day">
+                                                    placeholder="Выберите дату">
                                             </el-date-picker>
                                         </div>
                                     </template>
@@ -209,9 +215,10 @@
                                     <template>
                                         <div class="block">
                                             <el-date-picker
+                                                    :disabled="true"
                                                     v-model="props.row.data_completion"
                                                     type="date"
-                                                    placeholder="Pick a day">
+                                                    placeholder="Выберите дату">
                                             </el-date-picker>
                                         </div>
                                     </template>
@@ -225,6 +232,7 @@
                                     <template>
                                         <div class="block">
                                             <el-date-picker
+                                                    :disabled="true"
                                                     v-model="props.row.value21"
                                                     type="daterange"
                                                     align="right"
@@ -273,20 +281,18 @@
                     width="100">
                 <template slot-scope="scope">
                     <el-button
-                            type="primary"
-                            size="mini"
-                            icon="el-icon-edit"
-                            @click="handleEdit(scope.$index, scope.row)"
-                            circle></el-button>
-                    <el-button
                             type="danger"
-                            size="mini"
+                            size="medium"
                             icon="el-icon-delete"
                             @click="handleDelete(scope.$index, scope.row)"
                             circle></el-button>
                 </template>
             </el-table-column>
         </el-table>
+        <el-button-group id="pageButton">
+            <el-button type="primary" icon="el-icon-arrow-left">Предыдущая страница</el-button>
+            <el-button type="primary">Следующая страница<i class="el-icon-arrow-right el-icon-right"></i></el-button>
+        </el-button-group>
     </div>
 </template>
 
@@ -296,6 +302,7 @@
         name: "Orders",
         data() {
             return {
+                activeNames: '1',
                 filter: {
                     name: '',
                     pickerOptions1: {
@@ -410,6 +417,18 @@
 
     .el-form-item {
         margin-right: 30px;
+    }
+
+    #roundButton {
+        margin-top: 15px;
+    }
+
+    #searchButton {
+        margin-left: 15px;
+    }
+
+    #pageButton {
+        margin-top: 40px;
     }
 
 
