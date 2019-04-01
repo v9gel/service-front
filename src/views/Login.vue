@@ -9,17 +9,15 @@
                     </div>
                     <div class="text item">
                         <div style="margin: 20px;"></div>
-                        <el-form :label-position="labelPosition" :model="formLabelAlign">
+                        <el-form :label-position="labelPosition" :model="form">
                             <el-form-item label="Шифр подразделения">
-                                <el-input v-model="formLabelAlign.name" placeholder="Введите шифр"></el-input>
+                                <el-input v-model="form.code" placeholder="Введите шифр"></el-input>
                             </el-form-item>
                             <el-form-item label="Пароль">
-                                <el-input v-model="formLabelAlign.region" placeholder="******"></el-input>
+                                <el-input v-model="form.password" placeholder="******"></el-input>
                             </el-form-item>
                             <el-form-item>
-                                <router-link :to="{name: 'home'}">
-                                    <el-button type="primary" @click="submitForm('dynamicValidateForm')">Войти</el-button>
-                                </router-link>
+                                <el-button type="primary" @click="login()">Войти</el-button>
                             </el-form-item>
                         </el-form>
                     </div>
@@ -36,12 +34,25 @@
         data() {
             return {
                 labelPosition: 'right',
-                formLabelAlign: {
-                    name: '',
-                    region: '',
-                    type: ''
+                form: {
+                    code: '',
+                    passwoed: ''
                 }
             };
+        },
+        methods: {
+            login: function () {
+                this.axios.post(this.$config.API +'login', this.form).then((response) => {
+                    if(response.data.msg === 'false'){
+                        alert("Неверный пароль")
+                    }
+                    else {
+                        this.$localStorage.set('user', response.data)
+                        this.$router.push({ path: 'home' })
+                        console.log(response.data)
+                    }
+                });
+            }
         }
     }
 </script>
