@@ -6,20 +6,20 @@
         <el-submenu index="0">
             <template slot="title">
                 <i class="el-icon-goods"></i>
-                <span>АРМ Точка - Малахова</span>
+                <span>{{this.$localStorage.get('user').name}}</span>
             </template>
             <el-menu-item index='0-1' :route="{name: 'about'}">О подразделении</el-menu-item>
             <el-menu-item index='0-1' :route="{name: 'login'}">Выйти</el-menu-item>
         </el-submenu>
-        <el-menu-item index='1' :route="{name:'home'}">
+        <!--el-menu-item index='1' :route="{name:'home'}">
             <i class="el-icon-menu"></i>
             <span>Главная</span>
-        </el-menu-item>
-        <el-menu-item index='2' :route="{name:'orders'}">
+        </el-menu-item-->
+        <el-menu-item index='2' v-if="this.$localStorage.get('user').activityId == 3" :route="{name:'orders'}">
             <i class="el-icon-document"></i>
             <span>Наряд-заказы</span>
         </el-menu-item>
-        <el-menu-item index='2-1' :route="{name:'ordersRepairs'}">
+        <el-menu-item index='2-1' v-if="this.$localStorage.get('user').activityId == 2" :route="{name:'ordersRepairs'}">
             <i class="el-icon-document"></i>
             <span>Наряд-заказы (цех)</span>
         </el-menu-item>

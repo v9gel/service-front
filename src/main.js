@@ -10,11 +10,17 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
 
+import Storage from 'vue-web-storage'
+Vue.use(Storage)
+
 const vueConfig = require('vue-config')
 const configs = {
   API: 'https://serv1ce.herokuapp.com/'
 }
-Vue.use(vueConfig, configs)
+const configs1 = {
+  API: 'http://localhost:3000/'
+}
+Vue.use(vueConfig, configs1)
 
 Vue.use(ElementUI, {locale})
 Vue.config.productionTip = false

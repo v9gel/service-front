@@ -32,6 +32,10 @@
         components: {
             Login,
             Sidebar
+        },
+        created() {
+            if(this.$route.name != 'login' && this.$localStorage.get('user') === null)
+                this.$router.push({ path: 'login' })
         }
     }
 </script>
