@@ -2,14 +2,7 @@
     <div>
         <el-row :gutter="24">
             <el-col :span="1">
-                <el-button
-                        id="roundButton"
-                        type="success"
-                        size="medium"
-                        icon="el-icon-plus"
-                        @click="handleAddInvoice()"
-                        circle></el-button>
-
+                <InvoiceView></InvoiceView>
             </el-col>
             <el-col :span="23">
                 <h2>Накладные</h2>
@@ -17,7 +10,7 @@
         </el-row>
         <Line></Line>
 
-        <el-collapse v-model="activeNames" @change="handleChange">
+        <el-collapse v-model="activeNames">
             <h3>Фильтр поиска</h3>
             <el-collapse-item title="Нажмите, чтобы скрыть" name="1">
                 <el-row :gutter="24">
@@ -249,9 +242,9 @@
 
 <script>
 
-    import OrderView from '../components/OrderView'
+    import InvoiceView from '../components/InvoiceView'
     export default {
-        name: "Orders",
+        name: "Invoice",
         data() {
             return {
                 activeNames: '1',
@@ -333,7 +326,7 @@
             },
         },
         components: {
-            OrderView
+            InvoiceView
         }
     }
 

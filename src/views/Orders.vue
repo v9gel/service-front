@@ -10,7 +10,7 @@
         </el-row>
         <Line></Line>
 
-        <el-collapse v-model="activeNames" @change="handleChange">
+        <el-collapse v-model="activeNames">
             <h3>Фильтр поиска</h3>
             <el-collapse-item title="Нажмите, чтобы скрыть" name="1">
                 <el-row :gutter="24">

@@ -5,6 +5,7 @@ import store from './store'
 import ElementUI from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/ru-RU'
 import 'element-ui/lib/theme-chalk/index.css'
+import '../src/assets/style.css'
 
 import axios from 'axios'
 import VueAxios from 'vue-axios'
