@@ -1,6 +1,11 @@
 <template>
     <div>
-        <el-button type="primary" @click="dialogVisible = true">Оформить наряд-заказ</el-button>
+        <el-button
+                id="roundButton"
+                type="success"
+                size="medium"
+                icon="el-icon-plus"
+                circle></el-button>
 
         <el-dialog
                 title="Наряд заказ"
@@ -134,5 +139,8 @@
 </script>
 
 <style scoped>
+    #roundButton {
+        margin-top: 15px;
+    }
 
 </style>
