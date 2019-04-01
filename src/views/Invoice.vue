@@ -2,13 +2,7 @@
     <div>
         <el-row :gutter="24">
             <el-col :span="1">
-                <el-button
-                        id="roundButton"
-                        type="success"
-                        size="medium"
-                        icon="el-icon-plus"
-                        circle></el-button>
-
+                <InvoiceView></InvoiceView>
             </el-col>
             <el-col :span="23">
                 <h2>Накладные</h2>
@@ -16,7 +10,7 @@
         </el-row>
         <Line></Line>
 
-        <el-collapse v-model="activeNames" @change="handleChange">
+        <el-collapse v-model="activeNames">
             <h3>Фильтр поиска</h3>
             <el-collapse-item title="Нажмите, чтобы скрыть" name="1">
                 <el-row :gutter="24">
@@ -58,7 +52,11 @@
                     </el-form>
                 </el-row>
                 <el-row :gutter="24">
-                    <el-button id="searchButton" type="primary" icon="el-icon-search">Поиск</el-button>
+                    <el-button
+                            id="searchButton"
+                            type="primary"
+                            @click="handleSearch()"
+                            icon="el-icon-search">Поиск</el-button>
                 </el-row>
             </el-collapse-item>
         </el-collapse>
@@ -77,11 +75,18 @@
                                         type="primary"
                                         size="medium"
                                         icon="el-icon-edit"
-                                        @click="handleEdit(scope.$index, scope.row)"
+                                        @click="handleEdit(props.$index, props.row)"
                                         circle></el-button>
                             </el-col>
-                            <el-col :span="23">
+                            <el-col :span="8">
                                 <h2>Накладная на перемещение</h2>
+                            </el-col>
+                            <el-col :span="15">
+                                <el-button
+                                        id="saveButton"
+                                        :disabled=props.row.editable
+                                        @click="handleSave(props.$index, props.row)"
+                                        type="primary">Сохранить<i class="el-icon-upload el-icon-right"></i></el-button>
                             </el-col>
                         </el-row>
                         <el-row :gutter="24">
@@ -128,7 +133,7 @@
                                     <el-col :span="12"><div class="grid-content bg-purple">
                                         <el-form-item label="Подразделение">
                                             <template>
-                                                <el-select v-model="props.row.recipient.subdivision" placeholder="" :disabled="true">
+                                                <el-select v-model="props.row.recipient.subdivision" placeholder="" :disabled=props.row.editable>
                                                     <el-option
                                                             v-for="item in options"
                                                             :key="item.value"
@@ -153,11 +158,12 @@
                                 <el-row :gutter="24">
                                     <el-col :span="1">
                                         <el-button
-                                                :disabled="true"
+                                                :disabled=props.row.editable
                                                 id="roundButton"
                                                 type="success"
                                                 size="mini"
                                                 icon="el-icon-plus"
+                                                @click="handleAddTransfer(props.$index, props.row)"
                                                 circle></el-button>
                                     </el-col>
                                     <el-col :span="23">
@@ -182,6 +188,18 @@
                                         <el-table-column
                                                 prop="packaging"
                                                 label="Вид упаковки">
+                                        </el-table-column>
+                                        <el-table-column
+                                                width="50">
+                                            <template slot-scope="scopeTransfer">
+                                                <el-button
+                                                        :disabled=props.row.editable
+                                                        type="primary"
+                                                        size="mini"
+                                                        icon="el-icon-edit"
+                                                        @click="handleEditTransfer(props.$index, props.row, scopeTransfer.$index, scopeTransfer.row)"
+                                                        circle></el-button>
+                                            </template>
                                         </el-table-column>
                                     </el-table>
                                 </template>
@@ -224,9 +242,9 @@
 
 <script>
 
-    import OrderView from '../components/OrderView'
+    import InvoiceView from '../components/InvoiceView'
     export default {
-        name: "Orders",
+        name: "Invoice",
         data() {
             return {
                 activeNames: '1',
@@ -242,6 +260,7 @@
                     subdivision: '',
                 },
                 tableData: [{
+                    editable: true,
                     number: '345',
                     appliances_view: 'Пылесос, Утюг',
                     date_receipt: '2016-05-03',
@@ -285,14 +304,29 @@
                 return row[property] === value;
             },
             handleEdit(index, row) {
-                console.log(index, row);
+                row.editable = !row.editable
             },
             handleDelete(index, row) {
-                console.log(index, row);
-            }
+
+            },
+            handleAddInvoice() {
+
+            },
+            handleSearch() {
+
+            },
+            handleAddTransfer(index, row) {
+
+            },
+            handleEditTransfer(index, row, indexTransfer, rowTransfer) {
+
+            },
+            handleSave(index, row) {
+                row.editable = !row.editable
+            },
         },
         components: {
-            OrderView
+            InvoiceView
         }
     }
 
@@ -319,6 +353,10 @@
 
     #pageButton {
         margin-top: 40px;
+    }
+
+    #saveButton {
+        margin-top: 10px;
     }
 
 

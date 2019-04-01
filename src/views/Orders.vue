@@ -2,13 +2,7 @@
     <div>
         <el-row :gutter="24">
             <el-col :span="1">
-                <el-button
-                        id="roundButton"
-                        type="success"
-                        size="medium"
-                        icon="el-icon-plus"
-                        circle></el-button>
-
+                <OrderView></OrderView>
             </el-col>
             <el-col :span="23">
                 <h2>Наряд-заказы</h2>
@@ -16,7 +10,7 @@
         </el-row>
         <Line></Line>
 
-        <el-collapse v-model="activeNames" @change="handleChange">
+        <el-collapse v-model="activeNames">
             <h3>Фильтр поиска</h3>
             <el-collapse-item title="Нажмите, чтобы скрыть" name="1">
                 <el-row :gutter="24">
@@ -56,7 +50,11 @@
                     </el-form>
                 </el-row>
                 <el-row :gutter="24">
-                    <el-button id="searchButton" type="primary" icon="el-icon-search">Поиск</el-button>
+                    <el-button
+                            id="searchButton"
+                            type="primary"
+                            @click="handleSearch()"
+                            icon="el-icon-search">Поиск</el-button>
                 </el-row>
             </el-collapse-item>
         </el-collapse>
@@ -75,37 +73,44 @@
                                         type="primary"
                                         size="medium"
                                         icon="el-icon-edit"
-                                        @click="handleEdit(scope.$index, scope.row)"
+                                        @click="handleEdit(props.$index, props.row)"
                                         circle></el-button>
                             </el-col>
-                            <el-col :span="23">
+                            <el-col :span="6">
                                 <h2>Наряд-заказ №{{props.row.number}}</h2>
+                            </el-col>
+                            <el-col :span="17">
+                            <el-button
+                                    id="saveButton"
+                                    :disabled=props.row.editable
+                                    @click="handleSave(props.$index, props.row)"
+                                    type="primary">Сохранить<i class="el-icon-upload el-icon-right"></i></el-button>
                             </el-col>
                         </el-row>
                         <el-row :gutter="24">
                             <el-col :span="12"><div class="grid-content bg-purple">
                                 <h3>Информация о клиенте</h3>
                                 <el-form-item label="Фамилия">
-                                    <el-input v-model="props.row.client.surname" autocomplete="off" :disabled="true"></el-input>
+                                    <el-input v-model="props.row.client.surname" autocomplete="off" :disabled=props.row.editable></el-input>
                                 </el-form-item>
                                 <el-form-item label="Имя">
-                                    <el-input v-model="props.row.client.name" autocomplete="off" :disabled="true"></el-input>
+                                    <el-input v-model="props.row.client.name" autocomplete="off" :disabled=props.row.editable></el-input>
                                 </el-form-item>
                                 <el-form-item label="Отчество">
-                                    <el-input v-model="props.row.client.patronymic" autocomplete="off" :disabled="true"></el-input>
+                                    <el-input v-model="props.row.client.patronymic" autocomplete="off" :disabled=props.row.editable></el-input>
                                 </el-form-item>
                                 <el-form-item label="Номер телефона">
-                                    <el-input v-model="props.row.client.phone" :disabled="true"></el-input>
+                                    <el-input v-model="props.row.client.phone" :disabled=props.row.editable></el-input>
                                 </el-form-item>
                             </div></el-col>
                             <el-col :span="12"><div class="grid-content bg-purple">
                                 <h3>Информация об изделии</h3>
                                 <el-form-item label="Серийный номер">
-                                    <el-input v-model="props.row.product.serial" autocomplete="off" :disabled="true"></el-input>
+                                    <el-input v-model="props.row.product.serial" autocomplete="off" :disabled=props.row.editable></el-input>
                                 </el-form-item>
                                 <el-form-item label="Производитель">
                                     <template>
-                                        <el-select v-model="props.row.appliances_provider" placeholder="" :disabled="true">
+                                        <el-select v-model="props.row.appliances_provider" placeholder="" :disabled=props.row.editable>
                                             <el-option
                                                     v-for="item in options"
                                                     :key="item.value"
@@ -117,7 +122,7 @@
                                 </el-form-item>
                                 <el-form-item label="Вид техники">
                                     <template>
-                                        <el-select v-model="props.row.appliances_view" placeholder="" :disabled="true">
+                                        <el-select v-model="props.row.appliances_view" placeholder="" :disabled=props.row.editable>
                                             <el-option
                                                     v-for="item in options"
                                                     :key="item.value"
@@ -129,7 +134,7 @@
                                 </el-form-item>
                                 <el-form-item label="Модель">
                                     <template>
-                                        <el-select v-model="props.row.appliances_model" placeholder="" :disabled="true">
+                                        <el-select v-model="props.row.appliances_model" placeholder="" :disabled=props.row.editable>
                                             <el-option
                                                     v-for="item in options"
                                                     :key="item.value"
@@ -144,10 +149,10 @@
 
                         <el-row :gutter="24">
                             <el-col :span="24"><div class="grid-content bg-purple">
-                                <h3>Информация об дефектах</h3>
+                                <h3>Информация о дефектах</h3>
 
                                 <el-form-item label="Список дефектов">
-                                    <el-select v-model="props.row.defect" multiple placeholder="Пожалуйста, выберите дефекты изделия" style="width: 100%;" :disabled="true">
+                                    <el-select v-model="props.row.defect" multiple placeholder="Пожалуйста, выберите дефекты изделия" style="width: 100%;" :disabled=props.row.editable>
                                         <el-option
                                                 v-for="item in options"
                                                 :key="item.value"
@@ -191,7 +196,7 @@
                         <el-row :gutter="24">
                             <el-col :span="12"><div class="grid-content bg-purple">
                                 <el-form-item label="Принял">
-                                    <el-input v-model="props.row.accepted" autocomplete="off" :disabled="true"></el-input>
+                                    <el-input v-model="props.row.accepted" autocomplete="off" :disabled=props.row.editable></el-input>
                                 </el-form-item>
                                 <el-form-item label="Выполнил">
                                     <el-input v-model="props.row.fulfilled" autocomplete="off" :disabled="true"></el-input>
@@ -232,7 +237,7 @@
                                     <template>
                                         <div class="block">
                                             <el-date-picker
-                                                    :disabled="true"
+                                                    :disabled=props.row.editable
                                                     v-model="props.row.value21"
                                                     type="daterange"
                                                     align="right"
@@ -267,10 +272,7 @@
             </el-table-column>
             <el-table-column
                     prop="status"
-                    label="Статус"
-                    :filters="[{ text: 'Принят', value: 'Принят' }, { text: 'Заершен', value: 'Завершен' }]"
-                    :filter-method="filterTag"
-                    filter-placement="bottom-end">
+                    label="Статус">
                 <template slot-scope="scope">
                     <el-tag
                             :type="scope.row.status === 'Завершен' ? 'success' : 'default'"
@@ -290,8 +292,8 @@
             </el-table-column>
         </el-table>
         <el-button-group id="pageButton">
-            <el-button type="primary" icon="el-icon-arrow-left">Предыдущая страница</el-button>
-            <el-button type="primary">Следующая страница<i class="el-icon-arrow-right el-icon-right"></i></el-button>
+            <el-button type="primary" icon="el-icon-arrow-left">Предыдущая</el-button>
+            <el-button type="primary">Следующая<i class="el-icon-arrow-right el-icon-right"></i></el-button>
         </el-button-group>
     </div>
 </template>
@@ -316,6 +318,7 @@
                     status: []
                 },
                 tableData: [{
+                    editable: true,
                     number: '345',
                     name: 'Пылесос',
                     date_receipt: '2016-05-03',
@@ -395,11 +398,21 @@
                 return row[property] === value;
             },
             handleEdit(index, row) {
-                console.log(index, row);
+                row.editable = !row.editable
+
             },
             handleDelete(index, row) {
-                console.log(index, row);
-            }
+
+            },
+            handleAddOrder() {
+
+            },
+            handleSearch() {
+
+            },
+            handleSave(index, row) {
+                row.editable = !row.editable
+            },
         },
         components: {
             OrderView
@@ -429,6 +442,10 @@
 
     #pageButton {
         margin-top: 40px;
+    }
+
+    #saveButton {
+        margin-top: 10px;
     }
 
 

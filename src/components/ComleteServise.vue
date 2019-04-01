@@ -7,7 +7,6 @@
                 icon="el-icon-plus"
                 @click="dialogVisible = true"
                 circle></el-button>
-
         <el-dialog
                 title="Наряд заказ"
                 :visible.sync="dialogVisible"
@@ -128,89 +127,15 @@
           </span>
         </el-dialog>
     </div>
+    
 </template>
 
 <script>
     export default {
-        name: "OrderView",
-        data() {
-            return {
-                dialogVisible: false,
-                form: {
-                    number: '',
-                    name: '',
-                    date_receipt: '',
-                    status: '',
-                    client: {
-                        surname: '',
-                        name: '',
-                        patronymic: '',
-                        phone: '',
-                    },
-                    product: {
-                        serial: '',
-                        date_begin: '',
-                        date_end: '',
-                        appliances_model: '',
-                        appliances_provider: '',
-                        appliances_view: '',
-                    },
-                    defect: [],
-                    tableDataInto: [{
-                        number: '',
-                        name: '',
-                        price: '',
-                    }],
-                    accepted: '',
-                    fulfilled: '',
-                    data_completion: '',
-                    pickerOptions2: {
-
-                    },
-                    value21: '',
-                    value22: '',
-                },
-                options: [{
-                    value: 'Option1',
-                    label: 'Option1'
-                }, {
-                    value: 'Option2',
-                    label: 'Option2'
-                }, {
-                    value: 'Option3',
-                    label: 'Option3'
-                }, {
-                    value: 'Option4',
-                    label: 'Option4'
-                }, {
-                    value: 'Option5',
-                    label: 'Option5'
-                }],
-                value5: [],
-                value11: []
-            }
-        },
-        methods: {
-            onSubmit() {
-                console.log('submit!');
-            },
-            handleClose(done) {
-                this.$confirm('Вы действительно хотите закрыть этот диалог?')
-                    .then(_ => {
-                        done();
-                    })
-                    .catch(_ => {});
-            },
-            handleAddDate() {
-                this.dialogVisible = false
-            }
-        }
+        name: "ComleteServise"
     }
 </script>
 
 <style scoped>
-    #roundButton {
-        margin-top: 15px;
-    }
 
 </style>
