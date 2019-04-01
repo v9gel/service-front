@@ -15,11 +15,11 @@
             </el-table-column>
             <el-table-column
                     label="Производитель"
-                    prop="provider">
+                    prop="provider.name">
             </el-table-column>
             <el-table-column
                     label="Вид"
-                    prop="view">
+                    prop="view.name">
             </el-table-column>
             <el-table-column
                     align="right">
@@ -50,25 +50,7 @@
         name: "Models",
         data() {
             return {
-                tableData: [{
-                    id: 1,
-                    name: 'T100',
-                    code: '0989',
-                    provider: 'Samsung',
-                    view: 'Телевизор'
-                },{
-                    id: 1,
-                    name: 'T100',
-                    code: '0989',
-                    provider: 'Samsung',
-                    view: 'Телевизор'
-                },{
-                    id: 1,
-                    name: 'T100',
-                    code: '0989',
-                    provider: 'Samsung',
-                    view: 'Телевизор'
-                }],
+                tableData: null,
                 search: '',
             }
         },
@@ -78,8 +60,16 @@
             },
             handleDelete(index, row) {
                 console.log(index, row);
-            }
+            },
+            handleUpdate() {
+                this.axios.get(this.$config.API +'references/models').then((response) => {
+                    this.tableData = response.data
+                });
+            },
         },
+        created() {
+            this.handleUpdate();
+        }
     }
 </script>
 

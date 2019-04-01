@@ -20,7 +20,7 @@
             <h3>Фильтр поиска</h3>
             <el-collapse-item title="Нажмите, чтобы скрыть" name="1">
                 <el-row :gutter="24">
-                    <el-form label-position="left" label-width="170px" :model="formLabelAlign">
+                    <el-form label-position="left" label-width="170px">
                         <el-col :span="12">
                             <el-form-item label="Изделие">
                                 <el-input v-model="filter.name"></el-input>
