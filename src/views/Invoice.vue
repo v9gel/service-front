@@ -1,11 +1,24 @@
 <template>
     <div>
-        <h2>Накладные</h2>
-        <Line></Line>
-        <OrderView></OrderView>
+        <el-row :gutter="24">
+            <el-col :span="1">
+                <el-button
+                        id="roundButton"
+                        type="success"
+                        size="medium"
+                        icon="el-icon-plus"
+                        circle></el-button>
 
-        <el-collapse>
-            <el-collapse-item title="Фильтр поиска" name="1">
+            </el-col>
+            <el-col :span="23">
+                <h2>Накладные</h2>
+            </el-col>
+        </el-row>
+        <Line></Line>
+
+        <el-collapse v-model="activeNames" @change="handleChange">
+            <h3>Фильтр поиска</h3>
+            <el-collapse-item title="Нажмите, чтобы скрыть" name="1">
                 <el-row :gutter="24">
                     <el-form label-position="left" label-width="120px">
                         <el-col :span="12">
@@ -44,6 +57,9 @@
                         </el-col>
                     </el-form>
                 </el-row>
+                <el-row :gutter="24">
+                    <el-button id="searchButton" type="primary" icon="el-icon-search">Поиск</el-button>
+                </el-row>
             </el-collapse-item>
         </el-collapse>
         <el-table
@@ -55,17 +71,37 @@
 
                     <el-form label-position='top' ref="form" :model="form" label-width="130px">
                         <el-row :gutter="24">
-                            <h2>Накладная на перемещение №{{props.row.number}}</h2>
+                            <el-col :span="1">
+                                <el-button
+                                        id="roundButton"
+                                        type="primary"
+                                        size="medium"
+                                        icon="el-icon-edit"
+                                        @click="handleEdit(scope.$index, scope.row)"
+                                        circle></el-button>
+                            </el-col>
+                            <el-col :span="23">
+                                <h2>Накладная на перемещение</h2>
+                            </el-col>
                         </el-row>
                         <el-row :gutter="24">
                             <el-col :span="12"><div class="grid-content bg-purple">
                                 <el-form-item label="Номер">
-                                    <el-input v-model="props.row.number" autocomplete="off"></el-input>
+                                    <el-input v-model="props.row.number" autocomplete="off" :disabled="true"></el-input>
                                 </el-form-item>
                             </div></el-col>
                             <el-col :span="12"><div class="grid-content bg-purple">
                                 <el-form-item label="Дата составления">
-                                    <el-input v-model="props.row.date_receipt" autocomplete="off"></el-input>
+                                    <template>
+                                        <div class="block">
+                                            <el-date-picker
+                                                    :disabled="true"
+                                                    v-model="props.row.date_receipt"
+                                                    type="date"
+                                                    placeholder="Выберите дату">
+                                            </el-date-picker>
+                                        </div>
+                                    </template>
                                 </el-form-item>
                             </div></el-col>
                         </el-row>
@@ -76,12 +112,12 @@
                                 <el-row :gutter="24">
                                     <el-col :span="12"><div class="grid-content bg-purple">
                                         <el-form-item label="Подразделение">
-                                            <el-input v-model="props.row.sender.subdivision" autocomplete="off"></el-input>
+                                            <el-input v-model="props.row.sender.subdivision" autocomplete="off" :disabled="true"></el-input>
                                         </el-form-item>
                                     </div></el-col>
                                     <el-col :span="12"><div class="grid-content bg-purple">
                                         <el-form-item label="Вид деятельности">
-                                            <el-input v-model="props.row.sender.activity" autocomplete="off"></el-input>
+                                            <el-input v-model="props.row.sender.activity" autocomplete="off" :disabled="true"></el-input>
                                         </el-form-item>
                                     </div></el-col>
                                 </el-row>
@@ -91,12 +127,21 @@
                                 <el-row :gutter="24">
                                     <el-col :span="12"><div class="grid-content bg-purple">
                                         <el-form-item label="Подразделение">
-                                            <el-input v-model="props.row.recipient.subdivision" autocomplete="off"></el-input>
+                                            <template>
+                                                <el-select v-model="props.row.recipient.subdivision" placeholder="" :disabled="true">
+                                                    <el-option
+                                                            v-for="item in options"
+                                                            :key="item.value"
+                                                            :label="item.label"
+                                                            :value="item.value">
+                                                    </el-option>
+                                                </el-select>
+                                            </template>
                                         </el-form-item>
                                     </div></el-col>
                                     <el-col :span="12"><div class="grid-content bg-purple">
                                         <el-form-item label="Вид деятельности">
-                                            <el-input v-model="props.row.recipient.activity" autocomplete="off"></el-input>
+                                            <el-input v-model="props.row.recipient.activity" autocomplete="off" :disabled="true"></el-input>
                                         </el-form-item>
                                     </div></el-col>
                                 </el-row>
@@ -105,7 +150,20 @@
 
                         <el-row :gutter="24">
                             <el-col :span="24"><div class="grid-content bg-purple">
-                                <h3>Перемещаемые изделия</h3>
+                                <el-row :gutter="24">
+                                    <el-col :span="1">
+                                        <el-button
+                                                :disabled="true"
+                                                id="roundButton"
+                                                type="success"
+                                                size="mini"
+                                                icon="el-icon-plus"
+                                                circle></el-button>
+                                    </el-col>
+                                    <el-col :span="23">
+                                        <h3>Перемещаемые изделия</h3>
+                                    </el-col>
+                                </el-row>
                                 <template>
                                     <el-table
                                             :data="props.row.tableDataProduct"
@@ -149,20 +207,18 @@
                     width="100">
                 <template slot-scope="scope">
                     <el-button
-                            type="primary"
-                            size="mini"
-                            icon="el-icon-edit"
-                            @click="handleEdit(scope.$index, scope.row)"
-                            circle></el-button>
-                    <el-button
                             type="danger"
-                            size="mini"
+                            size="medium"
                             icon="el-icon-delete"
                             @click="handleDelete(scope.$index, scope.row)"
                             circle></el-button>
                 </template>
             </el-table-column>
         </el-table>
+        <el-button-group id="pageButton">
+            <el-button type="primary" icon="el-icon-arrow-left">Предыдущая</el-button>
+            <el-button type="primary">Следующая<i class="el-icon-arrow-right el-icon-right"></i></el-button>
+        </el-button-group>
     </div>
 </template>
 
@@ -173,9 +229,7 @@
         name: "Orders",
         data() {
             return {
-                options: [
-                    {value:1, label:1}
-                ],
+                activeNames: '1',
                 filter: {
                     appliances_view: '',
                     pickerOptions1: {
@@ -254,5 +308,19 @@
     .el-form-item {
         margin-right: 30px;
     }
+
+    #roundButton {
+        margin-top: 15px;
+    }
+
+    #searchButton {
+        margin-left: 15px;
+    }
+
+    #pageButton {
+        margin-top: 40px;
+    }
+
+
 
 </style>
