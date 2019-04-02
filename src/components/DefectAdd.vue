@@ -1,0 +1,76 @@
+<template>
+    <div>
+        <el-button
+                id="roundButton"
+                type="success"
+                size="medium"
+                icon="el-icon-plus"
+                @click="dialogVisible = true"
+                circle></el-button>
+        <el-dialog
+                title="Дефект"
+                :visible.sync="dialogVisible"
+                width="50%"
+                :before-close="handleClose">
+
+            <el-form label-position='left' ref="form" :model="form" label-width="150px">
+                <el-form-item label="Шифр">
+                    <el-input v-model="form.code" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="Наименование">
+                    <el-input v-model="form.name" autocomplete="off"></el-input>
+                </el-form-item>
+            </el-form>
+
+            <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">Отмена</el-button>
+            <el-button type="primary" @click="handleAddDate()">Сохранить</el-button>
+          </span>
+        </el-dialog>
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "DefectAdd",
+        data() {
+            return {
+                dialogVisible: false,
+                form: {
+                    name: '',
+                    code: ''
+                },
+            }
+        },
+        methods: {
+            onSubmit() {
+                console.log('submit!');
+            },
+            handleClose(done) {
+                this.$confirm('Вы действительно хотите закрыть этот диалог?')
+                    .then(_ => {
+                        done();
+                    })
+                    .catch(_ => {});
+            },
+            handleAddDate() {
+                this.dialogVisible = false
+                this.axios.post(this.$config.API +'references/defects', this.form).then((response) => {
+
+                });
+                this.handleUpdate();
+            },
+            handleUpdate() {
+                this.axios.get(this.$config.API +'references/defects').then((response) => {
+                    this.tableData = response.data
+                });
+            },
+        }
+    }
+</script>
+
+<style scoped>
+    #roundButton {
+        margin-top: 15px;
+    }
+</style>

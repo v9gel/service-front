@@ -1,6 +1,13 @@
 <template>
     <div>
-        <h2>Дефекты</h2>
+        <el-row :gutter="24">
+            <el-col :span="1">
+                <DefectAdd></DefectAdd>
+            </el-col>
+            <el-col :span="23">
+                <h2>Дефекты</h2>
+            </el-col>
+        </el-row>
         <Line></Line>
         <el-table
                 :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
@@ -38,6 +45,7 @@
 </template>
 
 <script>
+    import DefectAdd from '../components/DefectAdd'
     export default {
         name: "Defects",
         data() {
@@ -61,6 +69,9 @@
         },
         created() {
             this.handleUpdate();
+        },
+        components: {
+            DefectAdd
         }
     }
 </script>
