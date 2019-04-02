@@ -21,7 +21,7 @@
         </el-menu-item>
         <el-menu-item index='2-1' v-if="this.$localStorage.get('user').activityId == 2" :route="{name:'ordersRepairs'}">
             <i class="el-icon-document"></i>
-            <span>Наряд-заказы (цех)</span>
+            <span>Наряд-заказы</span>
         </el-menu-item>
         <el-menu-item index='3' :route="{name:'invoice'}">
             <i class="el-icon-document"></i>

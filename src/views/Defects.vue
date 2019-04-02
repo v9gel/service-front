@@ -2,7 +2,7 @@
     <div>
         <el-row :gutter="24">
             <el-col :span="1">
-                <DefectAdd></DefectAdd>
+                <DefectAdd @update="handleUpdate()"></DefectAdd>
             </el-col>
             <el-col :span="23">
                 <h2>Дефекты</h2>
@@ -29,15 +29,20 @@
                             placeholder="Поиск..."/>
                 </template>
                 <template slot-scope="scope">
-                    <router-link :to="'/references/clients/' + scope.row.id">
-                        <el-button
-                                size="mini"
-                                @click="handleEdit(scope.$index, scope.row)">Изменить</el-button>
-                    </router-link>
-                    <el-button
-                            size="mini"
-                            type="danger"
-                            @click="handleDelete(scope.$index, scope.row)">Удалить</el-button>
+                    <el-row :gutter="24">
+                        <el-col :span="20">
+                            <DefectEdit :code=scope.row.code :name=scope.row.name></DefectEdit>
+                        </el-col>
+                        <el-col :span="4">
+                            <el-button
+                                    type="danger"
+                                    size="medium"
+                                    icon="el-icon-delete"
+                                    @click="handleDelete(scope.$index, scope.row)"
+                                    circle></el-button>
+                        </el-col>
+
+                    </el-row>
                 </template>
             </el-table-column>
         </el-table>
@@ -46,6 +51,7 @@
 
 <script>
     import DefectAdd from '../components/DefectAdd'
+    import DefectEdit from "../components/DefectEdit";
     export default {
         name: "Defects",
         data() {
@@ -59,7 +65,10 @@
                 console.log(index, row);
             },
             handleDelete(index, row) {
-                console.log(index, row);
+                this.axios.delete(this.$config.API +'references/defects/' + row.id).then((response) => {
+
+                });
+                this.handleUpdate();
             },
             handleUpdate() {
                 this.axios.get(this.$config.API +'references/defects').then((response) => {
@@ -71,8 +80,9 @@
             this.handleUpdate();
         },
         components: {
+            DefectEdit,
             DefectAdd
-        }
+        },
     }
 </script>
 

@@ -1,10 +1,9 @@
 <template>
     <div>
         <el-button
-                id="roundButton"
-                type="success"
+                type="primary"
                 size="medium"
-                icon="el-icon-plus"
+                icon="el-icon-edit"
                 @click="dialogVisible = true"
                 circle></el-button>
         <el-dialog
@@ -13,7 +12,7 @@
                 width="50%"
                 :before-close="handleClose">
 
-            <el-form label-position='left' ref="form" :model="form" label-width="150px">
+            <el-form label-position='left' ref="form" :model="props" label-width="150px">
                 <el-form-item label="Шифр">
                     <el-input v-model="code" autocomplete="off"></el-input>
                 </el-form-item>
@@ -32,7 +31,7 @@
 
 <script>
     export default {
-        name: "DefectAdd",
+        name: "DefectEdit",
         data() {
             return {
                 dialogVisible: false,
@@ -53,17 +52,14 @@
             handleAddDate() {
                 this.$emit('update')
                 this.dialogVisible = false
-                this.axios.post(this.$config.API +'references/defects', this.props).then((response) => {
+                this.axios.post(this.$config.API +'references/defects', {code:this.props.code, name:this.props.name}).then((response) => {
 
                 });
-                location.reload()
             },
         }
     }
 </script>
 
 <style scoped>
-    #roundButton {
-        margin-top: 15px;
-    }
+
 </style>
