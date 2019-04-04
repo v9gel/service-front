@@ -31,7 +31,7 @@
                 <template slot-scope="scope">
                     <el-row :gutter="24">
                         <el-col :span="20">
-                            <DefectEdit :code=scope.row.code :name=scope.row.name></DefectEdit>
+                            <DefectEdit :form=scope.row></DefectEdit>
                         </el-col>
                         <el-col :span="4">
                             <el-button

@@ -12,18 +12,18 @@
                 width="50%"
                 :before-close="handleClose">
 
-            <el-form label-position='left' ref="form" :model="props" label-width="150px">
+            <el-form label-position='left' ref="form" :model="form" label-width="150px">
                 <el-form-item label="Шифр">
-                    <el-input v-model="code" autocomplete="off"></el-input>
+                    <el-input v-model="form.code" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="Наименование">
-                    <el-input v-model="name" autocomplete="off"></el-input>
+                    <el-input v-model="form.name" autocomplete="off"></el-input>
                 </el-form-item>
             </el-form>
 
             <span slot="footer" class="dialog-footer">
             <el-button @click="dialogVisible = false">Отмена</el-button>
-            <el-button type="primary" @click="handleAddDate()">Сохранить</el-button>
+            <el-button type="primary" @click="handleEditDate()">Сохранить</el-button>
           </span>
         </el-dialog>
     </div>
@@ -37,7 +37,7 @@
                 dialogVisible: false,
             }
         },
-        props: ['name', 'code'],
+        props: ['form'],
         methods: {
             onSubmit() {
                 console.log('submit!');
@@ -49,15 +49,15 @@
                     })
                     .catch(_ => {});
             },
-            handleAddDate() {
-                this.$emit('update')
+            handleEditDate() {
                 this.dialogVisible = false
-                this.axios.post(this.$config.API +'references/defects', {code:this.props.code, name:this.props.name}).then((response) => {
+                this.axios.post(this.$config.API +'references/defects/' + this.form.id, this.form).then((response) => {
 
                 });
             },
         }
     }
+
 </script>
 
 <style scoped>

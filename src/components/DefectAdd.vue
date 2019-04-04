@@ -58,7 +58,6 @@
                 this.axios.post(this.$config.API +'references/defects', this.form).then((response) => {
 
                 });
-                location.reload()
             },
         }
     }
