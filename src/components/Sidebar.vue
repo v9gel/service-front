@@ -40,6 +40,8 @@
             <el-menu-item index='4-7' :route="{name: 'statuces'}">Статусы</el-menu-item>
             <el-menu-item index='4-8' :route="{name: 'services'}">Услуги</el-menu-item>
             <el-menu-item index='4-9' :route="{name: 'defects'}">Дефекты</el-menu-item>
+            <el-menu-item index='4-10' :route="{name: 'subdivisions'}">Подразделения</el-menu-item>
+            <el-menu-item index='4-11' :route="{name: 'activities'}">Виды деятельности</el-menu-item>
         </el-submenu>
         <el-menu-item index='5' :route="{name: 'help'}">
             <i class="el-icon-question"></i>

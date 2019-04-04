@@ -7,7 +7,7 @@
                 @click="dialogVisible = true"
                 circle></el-button>
         <el-dialog
-                title="Дефект"
+                title="Подразделение"
                 :visible.sync="dialogVisible"
                 width="50%"
                 :before-close="handleClose">
@@ -18,6 +18,17 @@
                 </el-form-item>
                 <el-form-item label="Наименование">
                     <el-input v-model="form.name" autocomplete="off"></el-input>
+                </el-form-item>
+
+                <el-form-item label="Вид деятельности">
+                    <el-select v-model="form.activity" placeholder="">
+                        <el-option
+                                v-for="item in valueActivity"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                        </el-option>
+                    </el-select>
                 </el-form-item>
             </el-form>
 
@@ -31,13 +42,20 @@
 
 <script>
     export default {
-        name: "DefectEdit",
+        name: "SubdivisionsEdit",
         data() {
             return {
                 dialogVisible: false,
+                valueActivity: null
             }
         },
         props: ['form'],
+        watch: {
+            // эта функция запускается при любом изменении вопроса
+            form: function () {
+                this.props.form.activity.name = 'Место'
+            }
+        },
         methods: {
             onSubmit() {
                 console.log('submit!');
@@ -51,13 +69,20 @@
             },
             handleEditDate() {
                 this.dialogVisible = false
-                this.axios.post(this.$config.API +'references/defects/' + this.form.id, this.form).then((response) => {
+                this.axios.post(this.$config.API +'references/subdivisions/' + this.form.id, this.form).then((response) => {
                     this.$emit('update');
                 });
             },
-        }
+            handleGetActivity() {
+                this.axios.get(this.$config.API +'references/activities').then((response) => {
+                    this.valueActivity = response.data
+                });
+            }
+        },
+        created() {
+            this.handleGetActivity();
+        },
     }
-
 </script>
 
 <style scoped>

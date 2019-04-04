@@ -7,17 +7,23 @@
                 @click="dialogVisible = true"
                 circle></el-button>
         <el-dialog
-                title="Дефект"
+                title="Клиент"
                 :visible.sync="dialogVisible"
                 width="50%"
                 :before-close="handleClose">
 
             <el-form label-position='left' ref="form" :model="form" label-width="150px">
-                <el-form-item label="Шифр">
-                    <el-input v-model="form.code" autocomplete="off"></el-input>
+                <el-form-item label="Фамилия">
+                    <el-input v-model="form.surname" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="Наименование">
+                <el-form-item label="Имя">
                     <el-input v-model="form.name" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="Отчество">
+                    <el-input v-model="form.patronymic" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="Номер телефона">
+                    <el-input v-model="form.phone" autocomplete="off"></el-input>
                 </el-form-item>
             </el-form>
 
@@ -31,7 +37,7 @@
 
 <script>
     export default {
-        name: "DefectEdit",
+        name: "ClientEdit",
         data() {
             return {
                 dialogVisible: false,
@@ -51,13 +57,12 @@
             },
             handleEditDate() {
                 this.dialogVisible = false
-                this.axios.post(this.$config.API +'references/defects/' + this.form.id, this.form).then((response) => {
+                this.axios.post(this.$config.API +'references/clients/' + this.form.id, this.form).then((response) => {
                     this.$emit('update');
                 });
             },
         }
     }
-
 </script>
 
 <style scoped>

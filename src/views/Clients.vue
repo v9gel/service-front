@@ -1,8 +1,13 @@
 <template>
     <div>
-        <h2>Клиенты</h2>
-        <el-button type="primary" @click="dialogVisible = true">Добавить клиента</el-button>
-
+        <el-row :gutter="24">
+            <el-col :span="1">
+                <ClientAdd v-on:update="handleUpdate()"></ClientAdd>
+            </el-col>
+            <el-col :span="23">
+                <h2>Клиенты</h2>
+            </el-col>
+        </el-row>
         <Line></Line>
         <el-table
                 :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
@@ -10,34 +15,18 @@
             <el-table-column
                     label="Фамилия"
                     prop="surname">
-                <template slot-scope="scope">
-                    <el-input v-model="scope.row.surname" v-if="scope.row.editable"></el-input>
-                    <div  v-if="!scope.row.editable">{{scope.row.surname}}</div>
-                </template>
             </el-table-column>
             <el-table-column
                     label="Имя"
                     prop="name">
-                <template slot-scope="scope">
-                    <el-input v-model="scope.row.name" v-if="scope.row.editable"></el-input>
-                    <div  v-if="!scope.row.editable">{{scope.row.name}}</div>
-                </template>
             </el-table-column>
             <el-table-column
                     label="Отчество"
                     prop="patronymic">
-                <template slot-scope="scope">
-                    <el-input v-model="scope.row.patronymic" v-if="scope.row.editable"></el-input>
-                    <div  v-if="!scope.row.editable">{{scope.row.patronymic}}</div>
-                </template>
             </el-table-column>
             <el-table-column
-                    label="Телефон"
+                    label="Номер телефона"
                     prop="phone">
-                <template slot-scope="scope">
-                    <el-input v-model="scope.row.phone" v-if="scope.row.editable"></el-input>
-                    <div  v-if="!scope.row.editable">{{scope.row.phone}}</div>
-                </template>
             </el-table-column>
             <el-table-column
                     align="right">
@@ -48,13 +37,20 @@
                             placeholder="Поиск..."/>
                 </template>
                 <template slot-scope="scope">
-                    <el-button
-                            size="mini"
-                            @click="scope.row.editable = !scope.row.editable">Изменить</el-button>
-                    <el-button
-                            size="mini"
-                            type="danger"
-                            @click="handleDelete(scope.$index, scope.row)">Удалить</el-button>
+                    <el-row :gutter="24">
+                        <el-col :span="17">
+                            <ClientEdit :form=scope.row v-on:update="handleUpdate"></ClientEdit>
+                        </el-col>
+                        <el-col :span="7">
+                            <el-button
+                                    type="danger"
+                                    size="medium"
+                                    icon="el-icon-delete"
+                                    @click="handleDelete(scope.$index, scope.row)"
+                                    circle></el-button>
+                        </el-col>
+
+                    </el-row>
                 </template>
             </el-table-column>
         </el-table>
@@ -62,48 +58,21 @@
 </template>
 
 <script>
-    import Line from "../components/Line";
+    import ClientAdd from '../components/ClientAdd'
+    import ClientEdit from '../components/ClientEdit'
     export default {
-        name: 'Clients',
-        components: {Line},
+        name: "Clients",
         data() {
             return {
-                dialogVisible: false,
-                form: {
-                    surname: '',
-                    name: '',
-                    patronymic: '',
-                    phone: ''
-                },
                 tableData: null,
                 search: '',
             }
         },
         methods: {
-            handleAdd() {
-                this.axios.post(this.$config.API +'references/clients', this.form).then((response) => {
-
-                });
-                this.dialogVisible = false;
-                this.handleUpdate()
-                this.handleUpdate()
-            },
-            handleEdit(index, row) {
-                this.axios.post(this.$config.API +'references/clients/'+ this.row.id).then((response) => {
-
-                });
-                this.handleUpdate();
-                this.handleUpdate();
-            },
-            handleClose() {
-                this.dialogVisible = false;
-            },
             handleDelete(index, row) {
                 this.axios.delete(this.$config.API +'references/clients/' + row.id).then((response) => {
-
+                    this.handleUpdate();
                 });
-                this.handleUpdate();
-                this.handleUpdate();
             },
             handleUpdate() {
                 this.axios.get(this.$config.API +'references/clients').then((response) => {
@@ -113,7 +82,11 @@
         },
         created() {
             this.handleUpdate();
-        }
+        },
+        components: {
+            ClientEdit,
+            ClientAdd
+        },
     }
 </script>
 

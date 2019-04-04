@@ -2,10 +2,10 @@
     <div>
         <el-row :gutter="24">
             <el-col :span="1">
-                <DefectAdd v-on:update="handleUpdate()"></DefectAdd>
+                <SubdivisionsAdd v-on:update="handleUpdate()"></SubdivisionsAdd>
             </el-col>
             <el-col :span="23">
-                <h2>Дефекты</h2>
+                <h2>Подразделения</h2>
             </el-col>
         </el-row>
         <Line></Line>
@@ -21,6 +21,10 @@
                     prop="code">
             </el-table-column>
             <el-table-column
+                    label="Вид деятельности"
+                    prop="activity.name">
+            </el-table-column>
+            <el-table-column
                     align="right">
                 <template slot="header" slot-scope="scope">
                     <el-input
@@ -30,10 +34,10 @@
                 </template>
                 <template slot-scope="scope">
                     <el-row :gutter="24">
-                        <el-col :span="20">
-                            <DefectEdit :form=scope.row v-on:update="handleUpdate"></DefectEdit>
+                        <el-col :span="18">
+                            <SubdivisionsEdit :form=scope.row v-on:update="handleUpdate"></SubdivisionsEdit>
                         </el-col>
-                        <el-col :span="4">
+                        <el-col :span="6">
                             <el-button
                                     type="danger"
                                     size="medium"
@@ -50,10 +54,10 @@
 </template>
 
 <script>
-    import DefectAdd from '../components/DefectAdd'
-    import DefectEdit from '../components/DefectEdit';
+    import SubdivisionsAdd from "../components/SubdivisionsAdd";
+    import SubdivisionsEdit from "../components/SubdivisionsEdit";
     export default {
-        name: "Defects",
+        name: "Subdivisions",
         data() {
             return {
                 tableData: null,
@@ -62,12 +66,12 @@
         },
         methods: {
             handleDelete(index, row) {
-                this.axios.delete(this.$config.API +'references/defects/' + row.id).then((response) => {
+                this.axios.delete(this.$config.API +'references/subdivisions/' + row.id).then((response) => {
                     this.handleUpdate();
                 });
             },
             handleUpdate() {
-                this.axios.get(this.$config.API +'references/defects').then((response) => {
+                this.axios.get(this.$config.API +'references/subdivisions').then((response) => {
                     this.tableData = response.data
                 });
             },
@@ -76,8 +80,8 @@
             this.handleUpdate();
         },
         components: {
-            DefectEdit,
-            DefectAdd
+            SubdivisionsEdit,
+            SubdivisionsAdd
         },
     }
 </script>

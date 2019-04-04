@@ -17,7 +17,8 @@ import Defects from "./views/Defects";
 import Units from "./views/Units";
 import Invoice from "./views/Invoice";
 import OrdersRepairs from "./views/OrdersRepairs";
-
+import Activities from "./views/Activities";
+import Subdivisions from "./views/Subdivisions";
 Vue.use(Router)
 
 export default new Router({
@@ -101,6 +102,16 @@ export default new Router({
       path: '/references/defects',
       name: 'defects',
       component: Defects
+    },
+    {
+      path: '/references/subdivisions',
+      name: 'subdivisions',
+      component: Subdivisions
+    },
+    {
+      path: '/references/activities',
+      name: 'activities',
+      component: Activities
     },
     {
       path: '/help',

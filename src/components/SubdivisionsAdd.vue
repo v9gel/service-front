@@ -1,13 +1,14 @@
 <template>
     <div>
         <el-button
-                type="primary"
+                id="roundButton"
+                type="success"
                 size="medium"
-                icon="el-icon-edit"
+                icon="el-icon-plus"
                 @click="dialogVisible = true"
                 circle></el-button>
         <el-dialog
-                title="Дефект"
+                title="Подразделение"
                 :visible.sync="dialogVisible"
                 width="50%"
                 :before-close="handleClose">
@@ -19,11 +20,22 @@
                 <el-form-item label="Наименование">
                     <el-input v-model="form.name" autocomplete="off"></el-input>
                 </el-form-item>
+
+                <el-form-item label="Вид деятельности">
+                    <el-select v-model="form.activity" placeholder="">
+                        <el-option
+                                v-for="item in valueActivity"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
             </el-form>
 
             <span slot="footer" class="dialog-footer">
             <el-button @click="dialogVisible = false">Отмена</el-button>
-            <el-button type="primary" @click="handleEditDate()">Сохранить</el-button>
+            <el-button type="primary" @click="handleAddDate()">Сохранить</el-button>
           </span>
         </el-dialog>
     </div>
@@ -31,13 +43,18 @@
 
 <script>
     export default {
-        name: "DefectEdit",
+        name: "SubdivisionsAdd",
         data() {
             return {
                 dialogVisible: false,
+                form: {
+                    name: '',
+                    code: '',
+                    activity: ''
+                },
+                valueActivity: null
             }
         },
-        props: ['form'],
         methods: {
             onSubmit() {
                 console.log('submit!');
@@ -49,17 +66,26 @@
                     })
                     .catch(_ => {});
             },
-            handleEditDate() {
+            handleAddDate() {
                 this.dialogVisible = false
-                this.axios.post(this.$config.API +'references/defects/' + this.form.id, this.form).then((response) => {
+                this.axios.post(this.$config.API +'references/subdivisions', this.form).then((response) => {
                     this.$emit('update');
                 });
             },
-        }
+            handleGetActivity() {
+                this.axios.get(this.$config.API +'references/activities').then((response) => {
+                    this.valueActivity = response.data
+                });
+            }
+        },
+        created() {
+            this.handleGetActivity();
+        },
     }
-
 </script>
 
 <style scoped>
-
+    #roundButton {
+        margin-top: 15px;
+    }
 </style>
