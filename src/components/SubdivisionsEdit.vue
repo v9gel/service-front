@@ -21,7 +21,7 @@
                 </el-form-item>
 
                 <el-form-item label="Вид деятельности">
-                    <el-select v-model="form.activity" placeholder="">
+                    <el-select v-model="form.activity.id" placeholder="">
                         <el-option
                                 v-for="item in valueActivity"
                                 :key="item.id"
@@ -33,7 +33,7 @@
             </el-form>
 
             <span slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false">Отмена</el-button>
+            <el-button @click="handleClose">Отмена</el-button>
             <el-button type="primary" @click="handleEditDate()">Сохранить</el-button>
           </span>
         </el-dialog>
@@ -63,6 +63,8 @@
             handleClose(done) {
                 this.$confirm('Вы действительно хотите закрыть этот диалог?')
                     .then(_ => {
+                        this.dialogVisible = false;
+                        this.$emit('update');
                         done();
                     })
                     .catch(_ => {});
