@@ -1,14 +1,13 @@
 <template>
     <div>
         <el-button
-                id="roundButton"
-                type="success"
+                type="primary"
                 size="medium"
-                icon="el-icon-plus"
+                icon="el-icon-edit"
                 @click="dialogVisible = true"
                 circle></el-button>
         <el-dialog
-                title="Дефект"
+                title="Вид техники"
                 :visible.sync="dialogVisible"
                 width="50%"
                 :before-close="handleClose">
@@ -24,7 +23,7 @@
 
             <span slot="footer" class="dialog-footer">
             <el-button @click="handleClose">Отмена</el-button>
-            <el-button type="primary" @click="handleAddDate()">Сохранить</el-button>
+            <el-button type="primary" @click="handleEditDate()">Сохранить</el-button>
           </span>
         </el-dialog>
     </div>
@@ -32,16 +31,13 @@
 
 <script>
     export default {
-        name: "DefectAdd",
+        name: "ViewsEdit",
         data() {
             return {
                 dialogVisible: false,
-                form: {
-                    name: '',
-                    code: ''
-                }
             }
         },
+        props: ['form'],
         methods: {
             onSubmit() {
                 console.log('submit!');
@@ -55,9 +51,9 @@
                     })
                     .catch(_ => {});
             },
-            handleAddDate() {
+            handleEditDate() {
                 this.dialogVisible = false
-                this.axios.post(this.$config.API +'references/defects', this.form).then((response) => {
+                this.axios.post(this.$config.API +'references/views/' + this.form.id, this.form).then((response) => {
                     this.$emit('update');
                 });
             },
@@ -66,7 +62,5 @@
 </script>
 
 <style scoped>
-    #roundButton {
-        margin-top: 15px;
-    }
+
 </style>

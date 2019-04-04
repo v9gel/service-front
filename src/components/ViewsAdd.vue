@@ -8,7 +8,7 @@
                 @click="dialogVisible = true"
                 circle></el-button>
         <el-dialog
-                title="Дефект"
+                title="Вид техники"
                 :visible.sync="dialogVisible"
                 width="50%"
                 :before-close="handleClose">
@@ -32,7 +32,7 @@
 
 <script>
     export default {
-        name: "DefectAdd",
+        name: "ViewsAdd",
         data() {
             return {
                 dialogVisible: false,
@@ -57,7 +57,7 @@
             },
             handleAddDate() {
                 this.dialogVisible = false
-                this.axios.post(this.$config.API +'references/defects', this.form).then((response) => {
+                this.axios.post(this.$config.API +'references/views', this.form).then((response) => {
                     this.$emit('update');
                 });
             },

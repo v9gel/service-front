@@ -8,15 +8,12 @@
                 @click="dialogVisible = true"
                 circle></el-button>
         <el-dialog
-                title="Дефект"
+                title="Упаковка"
                 :visible.sync="dialogVisible"
                 width="50%"
                 :before-close="handleClose">
 
             <el-form label-position='left' ref="form" :model="form" label-width="150px">
-                <el-form-item label="Шифр">
-                    <el-input v-model="form.code" autocomplete="off"></el-input>
-                </el-form-item>
                 <el-form-item label="Наименование">
                     <el-input v-model="form.name" autocomplete="off"></el-input>
                 </el-form-item>
@@ -32,13 +29,12 @@
 
 <script>
     export default {
-        name: "DefectAdd",
+        name: "PackAdd",
         data() {
             return {
                 dialogVisible: false,
                 form: {
-                    name: '',
-                    code: ''
+                    name: ''
                 }
             }
         },
@@ -57,7 +53,7 @@
             },
             handleAddDate() {
                 this.dialogVisible = false
-                this.axios.post(this.$config.API +'references/defects', this.form).then((response) => {
+                this.axios.post(this.$config.API +'references/packs', this.form).then((response) => {
                     this.$emit('update');
                 });
             },

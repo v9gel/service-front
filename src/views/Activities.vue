@@ -13,14 +13,21 @@
                 :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
                 style="width: 100%">
             <el-table-column
-                    label="Наименование"
-                    prop="name">
+                    type="index"
+                    width="50">
             </el-table-column>
             <el-table-column
                     label="Шифр"
+                    width="100"
                     prop="code">
             </el-table-column>
             <el-table-column
+                    label="Наименование"
+                    width="200"
+                    prop="name">
+            </el-table-column>
+            <el-table-column
+                    width="500"
                     align="right">
                 <template slot="header" slot-scope="scope">
                     <el-input

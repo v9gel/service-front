@@ -9,12 +9,19 @@
                     </div>
                     <div class="text item">
                         <div style="margin: 20px;"></div>
-                        <el-form :label-position="labelPosition" :model="form">
-                            <el-form-item label="Шифр подразделения">
-                                <el-input v-model="form.code" placeholder="Введите шифр"></el-input>
+                        <el-form label-position="top" :model="form">
+                            <el-form-item label="Подразделение">
+                                <el-select v-model="form.code" placeholder="Выберите подразделение">
+                                    <el-option
+                                            v-for="item in valueSubdivision"
+                                            :key="item.code"
+                                            :label="item.name"
+                                            :value="item.code">
+                                    </el-option>
+                                </el-select>
                             </el-form-item>
                             <el-form-item label="Пароль">
-                                <el-input v-model="form.password" placeholder="******"></el-input>
+                                <el-input placeholder="Введите пароль" v-model="form.password" show-password></el-input>
                             </el-form-item>
                             <el-form-item>
                                 <el-button type="primary" @click="login()">Войти</el-button>
@@ -36,8 +43,9 @@
                 labelPosition: 'right',
                 form: {
                     code: '',
-                    passwoed: ''
-                }
+                    password: ''
+                },
+                valueSubdivision: ''
             };
         },
         methods: {
@@ -52,8 +60,16 @@
                         console.log(response.data)
                     }
                 });
+            },
+            handleGetSubdivision() {
+                this.axios.get(this.$config.API +'references/subdivisions').then((response) => {
+                    this.valueSubdivision = response.data
+                });
             }
-        }
+        },
+        created() {
+            this.handleGetSubdivision();
+        },
     }
 </script>
 
@@ -91,5 +107,11 @@
 
     .row-bg{
         margin-top: 60px;
+    }
+
+    .el-select {
+        display: inline-block;
+        position: i;
+        width: 440px;
     }
 </style>

@@ -1,22 +1,18 @@
 <template>
     <div>
         <el-button
-                id="roundButton"
-                type="success"
+                type="primary"
                 size="medium"
-                icon="el-icon-plus"
+                icon="el-icon-edit"
                 @click="dialogVisible = true"
                 circle></el-button>
         <el-dialog
-                title="Дефект"
+                title="Статус"
                 :visible.sync="dialogVisible"
                 width="50%"
                 :before-close="handleClose">
 
             <el-form label-position='left' ref="form" :model="form" label-width="150px">
-                <el-form-item label="Шифр">
-                    <el-input v-model="form.code" autocomplete="off"></el-input>
-                </el-form-item>
                 <el-form-item label="Наименование">
                     <el-input v-model="form.name" autocomplete="off"></el-input>
                 </el-form-item>
@@ -24,7 +20,7 @@
 
             <span slot="footer" class="dialog-footer">
             <el-button @click="handleClose">Отмена</el-button>
-            <el-button type="primary" @click="handleAddDate()">Сохранить</el-button>
+            <el-button type="primary" @click="handleEditDate()">Сохранить</el-button>
           </span>
         </el-dialog>
     </div>
@@ -32,16 +28,13 @@
 
 <script>
     export default {
-        name: "DefectAdd",
+        name: "StatusEdit",
         data() {
             return {
                 dialogVisible: false,
-                form: {
-                    name: '',
-                    code: ''
-                }
             }
         },
+        props: ['form'],
         methods: {
             onSubmit() {
                 console.log('submit!');
@@ -55,9 +48,9 @@
                     })
                     .catch(_ => {});
             },
-            handleAddDate() {
+            handleEditDate() {
                 this.dialogVisible = false
-                this.axios.post(this.$config.API +'references/defects', this.form).then((response) => {
+                this.axios.post(this.$config.API +'references/statuses/' + this.form.id, this.form).then((response) => {
                     this.$emit('update');
                 });
             },
@@ -66,7 +59,5 @@
 </script>
 
 <style scoped>
-    #roundButton {
-        margin-top: 15px;
-    }
+
 </style>

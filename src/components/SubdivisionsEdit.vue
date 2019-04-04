@@ -50,12 +50,6 @@
             }
         },
         props: ['form'],
-        watch: {
-            // эта функция запускается при любом изменении вопроса
-            form: function () {
-                this.props.form.activity.name = 'Место'
-            }
-        },
         methods: {
             onSubmit() {
                 console.log('submit!');

@@ -13,22 +13,31 @@
                 :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
                 style="width: 100%">
             <el-table-column
+                    type="index"
+                    width="50">
+            </el-table-column>
+            <el-table-column
                     label="Фамилия"
+                    width="200"
                     prop="surname">
             </el-table-column>
             <el-table-column
                     label="Имя"
+                    width="200"
                     prop="name">
             </el-table-column>
             <el-table-column
                     label="Отчество"
+                    width="200"
                     prop="patronymic">
             </el-table-column>
             <el-table-column
                     label="Номер телефона"
+                    width="200"
                     prop="phone">
             </el-table-column>
             <el-table-column
+                    width="200"
                     align="right">
                 <template slot="header" slot-scope="scope">
                     <el-input
