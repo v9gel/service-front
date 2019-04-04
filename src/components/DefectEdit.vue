@@ -1,6 +1,7 @@
 <template>
     <div>
         <el-button
+
                 type="primary"
                 size="medium"
                 icon="el-icon-edit"
@@ -52,7 +53,7 @@
             handleEditDate() {
                 this.dialogVisible = false
                 this.axios.post(this.$config.API +'references/defects/' + this.form.id, this.form).then((response) => {
-
+                    this.$emit('update');
                 });
             },
         }

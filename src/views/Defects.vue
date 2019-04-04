@@ -2,7 +2,7 @@
     <div>
         <el-row :gutter="24">
             <el-col :span="1">
-                <DefectAdd @update="handleUpdate()"></DefectAdd>
+                <DefectAdd v-on:update="handleUpdate()"></DefectAdd>
             </el-col>
             <el-col :span="23">
                 <h2>Дефекты</h2>
@@ -31,7 +31,7 @@
                 <template slot-scope="scope">
                     <el-row :gutter="24">
                         <el-col :span="20">
-                            <DefectEdit :form=scope.row></DefectEdit>
+                            <DefectEdit :form=scope.row v-on:update="handleUpdate"></DefectEdit>
                         </el-col>
                         <el-col :span="4">
                             <el-button
@@ -66,9 +66,8 @@
             },
             handleDelete(index, row) {
                 this.axios.delete(this.$config.API +'references/defects/' + row.id).then((response) => {
-
+                    this.handleUpdate();
                 });
-                this.handleUpdate();
             },
             handleUpdate() {
                 this.axios.get(this.$config.API +'references/defects').then((response) => {

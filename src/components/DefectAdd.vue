@@ -56,7 +56,7 @@
             handleAddDate() {
                 this.dialogVisible = false
                 this.axios.post(this.$config.API +'references/defects', this.form).then((response) => {
-
+                    this.$emit('update');
                 });
             },
         }
