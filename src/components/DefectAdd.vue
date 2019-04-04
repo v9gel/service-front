@@ -15,10 +15,10 @@
 
             <el-form label-position='left' ref="form" :model="form" label-width="150px">
                 <el-form-item label="Шифр">
-                    <el-input v-model="code" autocomplete="off"></el-input>
+                    <el-input v-model="form.code" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="Наименование">
-                    <el-input v-model="name" autocomplete="off"></el-input>
+                    <el-input v-model="form.name" autocomplete="off"></el-input>
                 </el-form-item>
             </el-form>
 
@@ -36,9 +36,12 @@
         data() {
             return {
                 dialogVisible: false,
+                form: {
+                    name: '',
+                    code: ''
+                }
             }
         },
-        props: ['name', 'code'],
         methods: {
             onSubmit() {
                 console.log('submit!');
@@ -51,9 +54,8 @@
                     .catch(_ => {});
             },
             handleAddDate() {
-                this.$emit('update')
                 this.dialogVisible = false
-                this.axios.post(this.$config.API +'references/defects', this.props).then((response) => {
+                this.axios.post(this.$config.API +'references/defects', this.form).then((response) => {
 
                 });
                 location.reload()
