@@ -37,37 +37,19 @@
                             <el-input v-model="form.product.serial" autocomplete="off"></el-input>
                         </el-form-item>
                         <el-form-item label="Производитель">
-                            <template>
-                                <el-select v-model="form.appliances_provider" placeholder="">
-                                    <el-option
-                                            v-for="item in options"
-                                            :key="item.value"
-                                            :label="item.label"
-                                            :value="item.value">
-                                    </el-option>
-                                </el-select>
-                            </template>
+                            <el-input v-model="form.product.appliances_model.provider.name" :disabled="true"></el-input>
                         </el-form-item>
                         <el-form-item label="Вид техники">
-                            <template>
-                                <el-select v-model="form.appliances_view" placeholder="">
-                                    <el-option
-                                            v-for="item in options"
-                                            :key="item.value"
-                                            :label="item.label"
-                                            :value="item.value">
-                                    </el-option>
-                                </el-select>
-                            </template>
+                            <el-input v-model="form.product.appliances_model.view.name" :disabled="true"></el-input>
                         </el-form-item>
                         <el-form-item label="Модель">
                             <template>
-                                <el-select v-model="form.appliances_model" placeholder="">
+                                <el-select v-model="form.product.appliances_model" value-key="id" l placeholder="">
                                     <el-option
-                                            v-for="item in options"
-                                            :key="item.value"
-                                            :label="item.label"
-                                            :value="item.value">
+                                            v-for="item in valueModel"
+                                            :key="item.id"
+                                            :label="item.provider.name + ' ' + item.name"
+                                            :value="item">
                                     </el-option>
                                 </el-select>
                             </template>
@@ -102,10 +84,10 @@
                         <el-form-item label="Список дефектов">
                             <el-select v-model="form.defect" multiple placeholder="Пожалуйста, выберите дефекты изделия" style="width: 100%;">
                                 <el-option
-                                        v-for="item in options"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
+                                        v-for="item in valueDefect"
+                                        :key="item.id"
+                                        :label="item.name"
+                                        :value="item.id">
                                 </el-option>
                             </el-select>
                         </el-form-item>
@@ -151,9 +133,10 @@
                         serial: '',
                         date_begin: '',
                         date_end: '',
-                        appliances_model: '',
-                        appliances_provider: '',
-                        appliances_view: '',
+                        appliances_model: {
+                            provider: { name: ''},
+                            view: { name: ''}
+                        }
                     },
                     defect: [],
                     tableDataInto: [{
@@ -170,22 +153,8 @@
                     value21: '',
                     value22: '',
                 },
-                options: [{
-                    value: 'Option1',
-                    label: 'Option1'
-                }, {
-                    value: 'Option2',
-                    label: 'Option2'
-                }, {
-                    value: 'Option3',
-                    label: 'Option3'
-                }, {
-                    value: 'Option4',
-                    label: 'Option4'
-                }, {
-                    value: 'Option5',
-                    label: 'Option5'
-                }],
+                valueModel: null,
+                valueDefect: null,
                 value5: [],
                 value11: []
             }
@@ -202,9 +171,26 @@
                     .catch(_ => {});
             },
             handleAddDate() {
+                this.axios.post(this.$config.API +'orders', this.form).then((response) => {
+                    this.$emit('update');
+                });
                 this.dialogVisible = false
-            }
-        }
+            },
+            handleGetModel() {
+                this.axios.get(this.$config.API +'references/models').then((response) => {
+                    this.valueModel = response.data
+                });
+            },
+            handleGetDefect() {
+                this.axios.get(this.$config.API +'references/defects').then((response) => {
+                    this.valueDefect = response.data
+                });
+            },
+        },
+        created() {
+            this.handleGetModel();
+            this.handleGetDefect();
+        },
     }
 </script>
 

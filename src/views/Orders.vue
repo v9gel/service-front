@@ -377,6 +377,7 @@
                     value21: '',
                     value22: '',
                 }],
+                valueModel: [],
                 search: '',
             }
         },
@@ -412,6 +413,9 @@
             },
             handleSave(index, row) {
                 row.editable = !row.editable
+            },
+            handleGetModel() {
+
             },
         },
         components: {

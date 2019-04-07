@@ -11,7 +11,7 @@
                         <div style="margin: 20px;"></div>
                         <el-form label-position="top" :model="form">
                             <el-form-item label="Подразделение">
-                                <el-select v-model="form.code" placeholder="Выберите подразделение">
+                                <el-select id="login" v-model="form.code" placeholder="Выберите подразделение">
                                     <el-option
                                             v-for="item in valueSubdivision"
                                             :key="item.code"
@@ -109,9 +109,8 @@
         margin-top: 60px;
     }
 
-    .el-select {
+    #login {
         display: inline-block;
-        position: i;
         width: 440px;
     }
 </style>
