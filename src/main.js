@@ -21,7 +21,11 @@ const configs = {
 const configs1 = {
   API: 'http://localhost:3000/'
 }
-Vue.use(vueConfig, configs)
+const configs2 = {
+  API: 'https://qx0p5ryjxw.sse.codesandbox.io/'
+}
+
+Vue.use(vueConfig, configs2)
 
 Vue.use(ElementUI, {locale})
 Vue.config.productionTip = false
