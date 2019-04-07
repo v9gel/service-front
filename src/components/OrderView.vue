@@ -64,7 +64,7 @@
                             <template>
                                 <div class="block">
                                     <el-date-picker
-                                            v-model="form.value21"
+                                            v-model="form.valueGarant"
                                             type="daterange"
                                             align="right"
                                             unlink-panels
@@ -150,7 +150,7 @@
                     pickerOptions2: {
 
                     },
-                    value21: '',
+                    valueGarant: '',
                     value22: '',
                 },
                 valueModel: null,
