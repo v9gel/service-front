@@ -244,10 +244,13 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-button-group id="pageButton">
-            <el-button type="primary" icon="el-icon-arrow-left">Предыдущая</el-button>
-            <el-button type="primary">Следующая<i class="el-icon-arrow-right el-icon-right"></i></el-button>
-        </el-button-group>
+        <el-pagination
+                id = "pagePag"
+                background
+                layout="prev, pager, next"
+                :current-page = page
+                :total="100">
+        </el-pagination>
     </div>
 </template>
 
@@ -258,6 +261,7 @@
         data() {
             return {
                 activeNames: '1',
+                page: '1',
                 filter: {
                     name: '',
                     pickerOptions1: {
@@ -356,6 +360,11 @@
 
     #saveButton {
         margin-top: 10px;
+    }
+
+    #pagePag {
+        margin-top: 50px;
+        margin-left: 300px;
     }
 
     .box-card {

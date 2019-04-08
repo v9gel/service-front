@@ -15,40 +15,18 @@
 
             <el-form label-position='left' ref="form" :model="form" label-width="150px">
                 <el-row :gutter="24">
-                    <el-col :span="12"><div class="grid-content bg-purple">
-                        <el-form-item label="Номер">
-                            <el-input v-model="form.number" autocomplete="off" :disabled="true"></el-input>
-                        </el-form-item>
-                    </div></el-col>
-                    <el-col :span="12"><div class="grid-content bg-purple">
-                        <el-form-item label="Дата составления">
-                            <template>
-                                <div class="block">
-                                    <el-date-picker
-                                            :disabled="true"
-                                            v-model="form.date_receipt"
-                                            type="date"
-                                            placeholder="Выберите дату">
-                                    </el-date-picker>
-                                </div>
-                            </template>
-                        </el-form-item>
-                    </div></el-col>
-                </el-row>
-
-                <el-row :gutter="24">
                     <el-col :span="24"><div class="grid-content bg-purple">
                         <h3>Получатель</h3>
                         <el-row :gutter="24">
                             <el-col :span="12"><div class="grid-content bg-purple">
                                 <el-form-item label="Подразделение">
                                     <template>
-                                        <el-select v-model="form.recipient.subdivision" placeholder="">
+                                        <el-select v-model="form.recipient" value-key="id" placeholder="">
                                             <el-option
-                                                    v-for="item in options"
-                                                    :key="item.value"
-                                                    :label="item.label"
-                                                    :value="item.value">
+                                                    v-for="item in valueSubdivision"
+                                                    :key="item.id"
+                                                    :label="item.name"
+                                                    :value="item">
                                             </el-option>
                                         </el-select>
                                     </template>
@@ -56,7 +34,7 @@
                             </div></el-col>
                             <el-col :span="12"><div class="grid-content bg-purple">
                                 <el-form-item label="Вид деятельности">
-                                    <el-input v-model="form.recipient.activity" autocomplete="off" :disabled="true"></el-input>
+                                    <el-input v-model="form.recipient.activity.name" autocomplete="off" :disabled="true"></el-input>
                                 </el-form-item>
                             </div></el-col>
                         </el-row>
@@ -129,40 +107,19 @@
                 dialogVisible: false,
                 form: {
                     number: '',
-                    appliances_view: '',
                     date_receipt: '',
-                    sender: {
-                        subdivision: '',
-                        activity: '',
-                    },
+                    sender: this.$localStorage.get('user'),
                     recipient: {
-                        subdivision: '',
-                        activity: '',
+                        activity: { name: '' }
                     },
                     tableDataProduct: [{
                         number: '',
-                        appliances_view: '',
+                        product: '',
                         packaging: '',
                     }],
                 },
-                options: [{
-                    value: 'Option1',
-                    label: 'Option1'
-                }, {
-                    value: 'Option2',
-                    label: 'Option2'
-                }, {
-                    value: 'Option3',
-                    label: 'Option3'
-                }, {
-                    value: 'Option4',
-                    label: 'Option4'
-                }, {
-                    value: 'Option5',
-                    label: 'Option5'
-                }],
-                value5: [],
-                value11: []
+                valueProduct: [],
+                valueSubdivision: []
             }
         },
         methods: {
@@ -178,8 +135,16 @@
             },
             handleAddDate() {
                 this.dialogVisible = false
-            }
-        }
+            },
+            handleGetSubdivision() {
+                this.axios.get(this.$config.API +'filter/subdivisions/not/' + this.form.sender.id).then((response) => {
+                    this.valueSubdivision = response.data
+                });
+            },
+        },
+        created() {
+            this.handleGetSubdivision();
+        },
     }
 </script>
 

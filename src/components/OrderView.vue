@@ -37,18 +37,18 @@
                             <el-input v-model="form.product.serial" autocomplete="off"></el-input>
                         </el-form-item>
                         <el-form-item label="Производитель">
-                            <el-input v-model="form.product.appliances_model.provider.name" :disabled="true"></el-input>
+                            <el-input v-model="form.product.model.provider.name" :disabled="true"></el-input>
                         </el-form-item>
                         <el-form-item label="Вид техники">
-                            <el-input v-model="form.product.appliances_model.view.name" :disabled="true"></el-input>
+                            <el-input v-model="form.product.model.view.name" :disabled="true"></el-input>
                         </el-form-item>
                         <el-form-item label="Модель">
                             <template>
-                                <el-select v-model="form.product.appliances_model" value-key="id" l placeholder="">
+                                <el-select v-model="form.product.model" value-key="id" l placeholder="">
                                     <el-option
                                             v-for="item in valueModel"
                                             :key="item.id"
-                                            :label="item.provider.name + ' ' + item.name"
+                                            :label="item.name"
                                             :value="item">
                                     </el-option>
                                 </el-select>
@@ -105,8 +105,8 @@
             </el-form>
 
             <span slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false">Отмена</el-button>
-            <el-button type="primary" @click="handleAddDate()">Сохранить</el-button>
+            <el-button @click="handleClose">Отмена</el-button>
+            <el-button type="primary" @click="handleAddOrder()">Сохранить</el-button>
           </span>
         </el-dialog>
     </div>
@@ -124,16 +124,18 @@
                     date_receipt: '',
                     status: '',
                     client: {
+                        id: '',
                         surname: '',
                         name: '',
                         patronymic: '',
                         phone: '',
                     },
                     product: {
+                        id: '',
                         serial: '',
                         date_begin: '',
                         date_end: '',
-                        appliances_model: {
+                        model: {
                             provider: { name: ''},
                             view: { name: ''}
                         }
@@ -155,8 +157,10 @@
                 },
                 valueModel: null,
                 valueDefect: null,
-                value5: [],
-                value11: []
+                value5: null,
+                value11: null,
+                flagAddClient: false,
+                flagAddProduct: false,
             }
         },
         methods: {
@@ -166,14 +170,30 @@
             handleClose(done) {
                 this.$confirm('Вы действительно хотите закрыть этот диалог?')
                     .then(_ => {
+                        this.dialogVisible = false;
+                        this.$emit('update');
                         done();
                     })
                     .catch(_ => {});
             },
-            handleAddDate() {
-                this.axios.post(this.$config.API +'orders', this.form).then((response) => {
-                    this.$emit('update');
+            handleAddOrder() {
+                this.form.product.date_begin = this.form.valueGarant[0]
+                this.form.product.date_end = this.form.valueGarant[1]
+
+                this.axios.post(this.$config.API +'references/clients', this.form.client).then((response) => {
+                    this.form.client.id = response.data.id
+
+                    this.axios.post(this.$config.API +'references/products', this.form.product).then((response) => {
+                        this.form.product.id = response.data.id
+
+                        this.axios.post(this.$config.API +'orders', this.form).then((response) => {
+                            this.$emit('update');
+                        });
+
+                    });
+
                 });
+
                 this.dialogVisible = false
             },
             handleGetModel() {
