@@ -116,12 +116,12 @@
                                 </el-form-item>
                                 <el-form-item label="Модель">
                                     <template>
-                                        <el-select v-model="props.row.product.view" placeholder="" :disabled=editable>
+                                        <el-select v-model="props.row.product.model" value-key="id" placeholder="" :disabled=editable>
                                             <el-option
                                                     v-for="item in valueModel"
-                                                    :key="item.value"
-                                                    :label="item.label"
-                                                    :value="item.value">
+                                                    :key="item.id"
+                                                    :label="item.name"
+                                                    :value="item">
                                             </el-option>
                                         </el-select>
                                     </template>
@@ -220,7 +220,7 @@
                                         <div class="block">
                                             <el-date-picker
                                                     :disabled=editable
-                                                    v-model="props.row.product.valueGarant"
+                                                    v-model= "props.row.product.valueGarant"
                                                     type="daterange"
                                                     align="right"
                                                     unlink-panels
@@ -323,7 +323,6 @@
                         serial: '',
                         date_begin: '',
                         date_end: '',
-                        valueGarant: '',
                         model: {
                             id: '',
                             name: '',
@@ -381,6 +380,7 @@
                 valueModel: [],
                 valueDefect: [],
                 search: '',
+                valueTest: ''
             }
         },
         methods: {
@@ -415,6 +415,19 @@
             },
             handleSave(index, row) {
                 this.editable = !this.editable
+                row.product.date_begin = row.product.valueGarant[0]
+                row.product.date_end = row.product.valueGarant[1]
+
+                this.axios.post(this.$config.API +'orders/' + row.id, row).then((response) => {
+                    this.$emit('update');
+                });
+                this.axios.post(this.$config.API +'references/clients/' + row.client.id, row.client).then((response) => {
+                    this.$emit('update');
+                });
+                this.axios.post(this.$config.API +'references/products/' + row.product.id, row.product).then((response) => {
+                    this.$emit('update');
+                });
+
             },
             handleGetOrder() {
                 this.axios.get(this.$config.API +'orders/point').then((response) => {
@@ -422,7 +435,9 @@
                 });
             },
             handleGetModel() {
-
+                this.axios.get(this.$config.API +'references/models').then((response) => {
+                    this.valueModel = response.data
+                });
             },
             handleChange(value) {
                 console.log(value);
@@ -430,6 +445,7 @@
         },
         created() {
             this.handleGetOrder();
+            this.handleGetModel();
         },
         components: {
             OrderView
