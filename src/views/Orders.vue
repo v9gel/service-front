@@ -2,7 +2,7 @@
     <div>
         <el-row :gutter="24">
             <el-col :span="1">
-                <OrderView></OrderView>
+                <OrderView v-on:update="handleGetOrder()"></OrderView>
             </el-col>
             <el-col :span="23">
                 <h2>Наряд-заказы</h2>
