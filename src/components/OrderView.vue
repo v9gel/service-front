@@ -14,35 +14,35 @@
                 width="65%"
                 :before-close="handleClose">
 
-            <el-form label-position='left' ref="form" :model="form" label-width="150px">
+            <el-form label-position='left' ref="form" :model="form" :rules="rules" label-width="150px" class="demo-ruleForm">
                 <el-row :gutter="24">
                     <el-col :span="12"><div class="grid-content bg-purple">
                         <h3>Информация о клиенте</h3>
-                        <el-form-item label="Фамилия">
+                        <el-form-item label="Фамилия" prop="surnameR">
                             <el-input v-model="form.client.surname" autocomplete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="Имя">
+                        <el-form-item label="Имя" prop="nameR">
                             <el-input v-model="form.client.name" autocomplete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="Отчество">
+                        <el-form-item label="Отчество" prop="patronymicR">
                             <el-input v-model="form.client.patronymic" autocomplete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="Номер телефона">
+                        <el-form-item label="Номер телефона" prop="phoneR">
                             <el-input v-model="form.client.phone"></el-input>
                         </el-form-item>
                     </div></el-col>
                     <el-col :span="12"><div class="grid-content bg-purple">
                         <h3>Информация об изделии</h3>
-                        <el-form-item label="Серийный номер">
+                        <el-form-item label="Серийный номер" prop="sNumberR">
                             <el-input v-model="form.product.serial" autocomplete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="Производитель">
+                        <el-form-item label="Производитель" prop="manufacturerR">
                             <el-input v-model="form.product.model.provider.name" :disabled="true"></el-input>
                         </el-form-item>
-                        <el-form-item label="Вид техники">
+                        <el-form-item label="Вид техники" prop="viewR">
                             <el-input v-model="form.product.model.view.name" :disabled="true"></el-input>
                         </el-form-item>
-                        <el-form-item label="Модель">
+                        <el-form-item label="Модель" prop="modelR">
                             <template>
                                 <el-select v-model="form.product.model" value-key="id" l placeholder="">
                                     <el-option
@@ -60,7 +60,7 @@
                 <h3>Гарантийная информация</h3>
                 <el-row :gutter="24">
                     <el-col :span="24"><div class="grid-content bg-purple">
-                        <el-form-item label="Срок гарантии">
+                        <el-form-item label="Срок гарантии" prop="guaranteeR">
                             <template>
                                 <div class="block">
                                     <el-date-picker
@@ -81,7 +81,7 @@
                 <h3>Информация о дефектах</h3>
                 <el-row :gutter="24">
                     <el-col :span="24"><div class="grid-content bg-purple">
-                        <el-form-item label="Список дефектов">
+                        <el-form-item label="Список дефектов" prop="defectsR">
                             <el-select v-model="form.defect" multiple placeholder="Пожалуйста, выберите дефекты изделия" style="width: 100%;">
                                 <el-option
                                         v-for="item in valueDefect"
@@ -97,7 +97,7 @@
                 <h3>Информация о сотруднике</h3>
                 <el-row :gutter="24">
                     <el-col :span="24"><div class="grid-content bg-purple">
-                        <el-form-item label="Принял">
+                        <el-form-item label="Принял" prop="acceptR">
                             <el-input v-model="form.accepted" autocomplete="off"></el-input>
                         </el-form-item>
                     </div></el-col>
@@ -106,7 +106,7 @@
 
             <span slot="footer" class="dialog-footer">
             <el-button @click="handleClose">Отмена</el-button>
-            <el-button type="primary" @click="handleAddOrder()">Сохранить</el-button>
+            <el-button type="primary" @click="handleAddOrder('form')">Сохранить</el-button>
           </span>
         </el-dialog>
     </div>
@@ -154,6 +154,39 @@
                     },
                     valueGarant: '',
                     value22: '',
+
+                    //Для валидаций
+                    surnameR: '',
+                    nameR: '',
+                    patronymicR: '',
+                    phoneR: '',
+                    sNumberR: '',
+                    manufacturerR: '',
+                    viewR: '',
+                    modelR: '',
+                    guaranteeR: '',
+                    defectsR: '',
+                    acceptR: ''
+                },
+                rules: {
+                    surnameR: [
+                        { required: true, message: 'Please, input surname!', trigger: 'blur' },
+                        { min: 3, max: 20, message: 'Length should be 3 to 20!', trigger: 'blur' }
+                    ],
+                    nameR: [
+                        { required: true, message: 'Please, input name!', trigger: 'blur' },
+                        { min: 3, max: 20, message: 'Length should be 3 to 20!', trigger: 'blur' }
+                    ],
+                    patronymicR: [
+                        { required: true, message: 'Please, input patronymic!', trigger: 'blur' },
+                        { min: 3, max: 20, message: 'Length should be 3 to 20!', trigger: 'blur' }
+                    ],
+                    phoneR: [
+                        { required: true, message: 'Please, input phone!', trigger: 'blur' },
+                    ],
+                    sNumberR: [
+                        { required: true, message: 'Please, input serial number!', trigger: 'blur' },
+                    ]
                 },
                 valueModel: null,
                 valueDefect: null,
@@ -176,25 +209,32 @@
                     })
                     .catch(_ => {});
             },
-            handleAddOrder() {
-                this.form.product.date_begin = this.form.valueGarant[0]
-                this.form.product.date_end = this.form.valueGarant[1]
+            handleAddOrder(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        this.form.product.date_begin = this.form.valueGarant[0]
+                        this.form.product.date_end = this.form.valueGarant[1]
 
-                this.axios.post(this.$config.API +'references/clients', this.form.client).then((response) => {
-                    this.form.client.id = response.data.id
+                        this.axios.post(this.$config.API + 'references/clients', this.form.client).then((response) => {
+                            this.form.client.id = response.data.id
 
-                    this.axios.post(this.$config.API +'references/products', this.form.product).then((response) => {
-                        this.form.product.id = response.data.id
+                            this.axios.post(this.$config.API + 'references/products', this.form.product).then((response) => {
+                                this.form.product.id = response.data.id
 
-                        this.axios.post(this.$config.API +'orders', this.form).then((response) => {
-                            this.$emit('update');
+                                this.axios.post(this.$config.API + 'orders', this.form).then((response) => {
+                                    this.$emit('update');
+                                });
+
+                            });
+
                         });
 
-                    });
-
+                        this.dialogVisible = false
+                    } else {
+                        console.log('Error submit!');
+                        return false;
+                    }
                 });
-
-                this.dialogVisible = false
             },
             handleGetModel() {
                 this.axios.get(this.$config.API +'references/models').then((response) => {
