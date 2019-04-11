@@ -134,12 +134,12 @@
                                 <h3>Информация о дефектах</h3>
 
                                 <el-form-item label="Список дефектов">
-                                    <el-select v-model="props.row.defect" multiple placeholder="Пожалуйста, выберите дефекты изделия" style="width: 100%;" :disabled=editable>
+                                    <el-select v-model="props.row.defects" value-key="id" multiple placeholder="Пожалуйста, выберите дефекты изделия" style="width: 100%;" :disabled=editable>
                                         <el-option
                                                 v-for="item in valueDefect"
-                                                :key="item.value"
-                                                :label="item.label"
-                                                :value="item.value">
+                                                :key="item.id"
+                                                :label="item.name"
+                                                :value="item">
                                         </el-option>
                                     </el-select>
                                 </el-form-item>
@@ -336,7 +336,7 @@
                             }
                         }
                     },
-                    defect: [],
+                    defects: [],
                     tableDataInto: [{
                         number: '1',
                         name: 'вм',
@@ -419,6 +419,7 @@
                 row.product.date_end = row.product.valueGarant[1]
 
                 this.axios.post(this.$config.API +'orders/' + row.id, row).then((response) => {
+                    console.log(row)
                     this.$emit('update');
                 });
                 this.axios.post(this.$config.API +'references/clients/' + row.client.id, row.client).then((response) => {
@@ -439,6 +440,11 @@
                     this.valueModel = response.data
                 });
             },
+            handleGetDefect() {
+                this.axios.get(this.$config.API +'references/defects').then((response) => {
+                    this.valueDefect = response.data
+                });
+            },
             handleChange(value) {
                 console.log(value);
             }
@@ -446,6 +452,7 @@
         created() {
             this.handleGetOrder();
             this.handleGetModel();
+            this.handleGetDefect();
         },
         components: {
             OrderView
