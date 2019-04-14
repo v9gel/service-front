@@ -25,7 +25,7 @@ const configs2 = {
   API: 'https://qx0p5ryjxw.sse.codesandbox.io/'
 }
 
-Vue.use(vueConfig, configs2)
+Vue.use(vueConfig, configs1)
 
 Vue.use(ElementUI, {locale})
 Vue.config.productionTip = false

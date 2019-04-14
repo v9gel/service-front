@@ -53,7 +53,7 @@
                         </el-row>
                         <template>
                             <el-table
-                                    :data="form.tableDataProduct"
+                                    :data="form.movingProducts"
                                     border
                                     style="width: 100%">
                                 <el-table-column
@@ -107,10 +107,10 @@
                     date_receipt: '',
                     sender: this.$localStorage.get('user'),
                     recipient: {
+                        id: '',
                         activity: { name: '' }
                     },
-                    tableDataProduct: [],
-                    product: []
+                    movingProducts: [],
                 },
                 valueProduct: [],
                 valueSubdivision: []
@@ -130,9 +130,7 @@
             handleAddDate() {
                 this.dialogVisible = false
 
-                this.form.product = this.form.tableDataProduct.map(function (product) {
-                    return product.id
-                });
+                console.log(this.form)
 
                 this.axios.post(this.$config.API +'invoices', this.form).then((response) => {
                     this.$emit('update');

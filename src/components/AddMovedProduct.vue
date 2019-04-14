@@ -89,7 +89,7 @@
             handleAddMovedProduct() {
                 this.dialogVisible = false
 
-                this.form.tableDataProduct.push(
+                this.form.movingProducts.push(
                     {
                         product: this.formForMoved.product,
                         pack: this.formForMoved.pack
