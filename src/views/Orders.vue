@@ -405,6 +405,9 @@
 
             },
             handleDelete(index, row) {
+                this.axios.delete(this.$config.API +'orders/' + row.id).then((response) => {
+                    this.$emit('update');
+                });
 
             },
             handleAddOrder() {

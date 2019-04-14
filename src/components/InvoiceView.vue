@@ -45,12 +45,7 @@
                     <el-col :span="24"><div class="grid-content bg-purple">
                         <el-row :gutter="24">
                             <el-col :span="1">
-                                <el-button
-                                        id="roundButton"
-                                        type="success"
-                                        size="mini"
-                                        icon="el-icon-plus"
-                                        circle></el-button>
+                                <AddMovedProduct :form=form></AddMovedProduct>
                             </el-col>
                             <el-col :span="23">
                                 <h3>Перемещаемые изделия</h3>
@@ -67,12 +62,12 @@
                                         width="60">
                                 </el-table-column>
                                 <el-table-column
-                                        prop="appliances_view"
+                                        prop="product.model.view.name"
                                         label="Изделие"
                                         width="500">
                                 </el-table-column>
                                 <el-table-column
-                                        prop="packaging"
+                                        prop="pack.name"
                                         label="Вид упаковки">
                                 </el-table-column>
                                 <el-table-column
@@ -100,8 +95,10 @@
 </template>
 
 <script>
+    import AddMovedProduct from "./AddMovedProduct";
     export default {
         name: "InvoiceView",
+        components: {AddMovedProduct},
         data() {
             return {
                 dialogVisible: false,
@@ -112,11 +109,8 @@
                     recipient: {
                         activity: { name: '' }
                     },
-                    tableDataProduct: [{
-                        number: '',
-                        product: '',
-                        packaging: '',
-                    }],
+                    tableDataProduct: [],
+                    product: []
                 },
                 valueProduct: [],
                 valueSubdivision: []
@@ -135,6 +129,15 @@
             },
             handleAddDate() {
                 this.dialogVisible = false
+
+                this.form.product = this.form.tableDataProduct.map(function (product) {
+                    return product.id
+                });
+
+                this.axios.post(this.$config.API +'invoices', this.form).then((response) => {
+                    this.$emit('update');
+                });
+
             },
             handleGetSubdivision() {
                 this.axios.get(this.$config.API +'filter/subdivisions/not/' + this.form.sender.id).then((response) => {
