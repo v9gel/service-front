@@ -84,7 +84,7 @@
                             <el-col :span="15">
                                 <el-button
                                         id="saveButton"
-                                        :disabled=props.row.editable
+                                        :disabled=editable
                                         @click="handleSave(props.$index, props.row)"
                                         type="primary">Сохранить<i class="el-icon-upload el-icon-right"></i></el-button>
                             </el-col>
@@ -117,12 +117,12 @@
                                 <el-row :gutter="24">
                                     <el-col :span="12"><div class="grid-content bg-purple">
                                         <el-form-item label="Подразделение">
-                                            <el-input v-model="props.row.sender.subdivision" autocomplete="off" :disabled="true"></el-input>
+                                            <el-input v-model="props.row.sender.name" autocomplete="off" :disabled="true"></el-input>
                                         </el-form-item>
                                     </div></el-col>
                                     <el-col :span="12"><div class="grid-content bg-purple">
                                         <el-form-item label="Вид деятельности">
-                                            <el-input v-model="props.row.sender.activity" autocomplete="off" :disabled="true"></el-input>
+                                            <el-input v-model="props.row.sender.activity.name" autocomplete="off" :disabled="true"></el-input>
                                         </el-form-item>
                                     </div></el-col>
                                 </el-row>
@@ -133,12 +133,12 @@
                                     <el-col :span="12"><div class="grid-content bg-purple">
                                         <el-form-item label="Подразделение">
                                             <template>
-                                                <el-select v-model="props.row.recipient.subdivision" placeholder="" :disabled=props.row.editable>
+                                                <el-select v-model="props.row.recipient.name" value-key="id" placeholder="" :disabled=editable>
                                                     <el-option
-                                                            v-for="item in options"
-                                                            :key="item.value"
-                                                            :label="item.label"
-                                                            :value="item.value">
+                                                            v-for="item in valueRecipient"
+                                                            :key="item.id"
+                                                            :label="item.name"
+                                                            :value="item">
                                                     </el-option>
                                                 </el-select>
                                             </template>
@@ -146,7 +146,7 @@
                                     </div></el-col>
                                     <el-col :span="12"><div class="grid-content bg-purple">
                                         <el-form-item label="Вид деятельности">
-                                            <el-input v-model="props.row.recipient.activity" autocomplete="off" :disabled="true"></el-input>
+                                            <el-input v-model="props.row.recipient.activity.name" autocomplete="off" :disabled="true"></el-input>
                                         </el-form-item>
                                     </div></el-col>
                                 </el-row>
@@ -158,7 +158,7 @@
                                 <el-row :gutter="24">
                                     <el-col :span="1">
                                         <el-button
-                                                :disabled=props.row.editable
+                                                :disabled=editable
                                                 id="roundButton"
                                                 type="success"
                                                 size="mini"
@@ -172,7 +172,7 @@
                                 </el-row>
                                 <template>
                                     <el-table
-                                            :data="props.row.tableDataProduct"
+                                            :data="props.row.movingProducts"
                                             border
                                             style="width: 100%">
                                         <el-table-column
@@ -181,19 +181,18 @@
                                                 width="50">
                                         </el-table-column>
                                         <el-table-column
-                                                prop="appliances_view"
+                                                prop="product"
                                                 label="Изделие"
                                                 width="650">
                                         </el-table-column>
                                         <el-table-column
-                                                prop="packaging"
+                                                prop="pack"
                                                 label="Вид упаковки">
                                         </el-table-column>
                                         <el-table-column
                                                 width="50">
                                             <template slot-scope="scopeTransfer">
                                                 <el-button
-                                                        :disabled=props.row.editable
                                                         type="primary"
                                                         size="mini"
                                                         icon="el-icon-edit"
@@ -263,31 +262,38 @@
                     value12: '',
                     subdivision: '',
                 },
+                body: [],
+                dop: [],
+                editable: true,
                 tableData: [{
-                    editable: true,
-                    number: '345',
-                    appliances_view: 'Пылесос, Утюг',
-                    date_receipt: '2016-05-03',
+                    id: '',
+                    number: '',
+                    date_receipt: '',
                     sender: {
-                        subdivision: 'Склад',
-                        activity: 'Хранение',
+                        id: '',
+                        name: '',
+                        activity: {
+                            id: '',
+                            name: '',
+                        }
                     },
                     recipient: {
-                        subdivision: '',
-                        activity: '',
+                        id: '',
+                        name: '',
+                        activity: {
+                            id: '',
+                            name: '',
+                        }
                     },
-                    tableDataProduct: [{
-                        number: '1',
-                        appliances_view: 'Утюг',
-                        packaging: 'Ящик',
-                    },
-                    {
-                        number: '2',
-                        appliances_view: 'Пылесос',
-                        packaging: 'Ящик',
+                    movingProducts: [{
+                        product: null,
+                        pack: null,
                     }],
                 }],
                 search: '',
+                valueRecipient: [],
+                valueProduct: [],
+                valuePack: []
             }
         },
         methods: {
@@ -308,7 +314,7 @@
                 return row[property] === value;
             },
             handleEdit(index, row) {
-                row.editable = !row.editable
+                this.editable = ! this.editable
             },
             handleDelete(index, row) {
 
@@ -326,11 +332,46 @@
 
             },
             handleSave(index, row) {
-                row.editable = !row.editable
+                this.editable = !this.editable
             },
+            handleGetProducts() {
+
+            },
+            handleGetPacks() {
+
+            },
+            handleGetInvoices() {
+                this.axios.get(this.$config.API +'references/packs').then((response2) => {
+                    this.valuePack = response2.data
+                    this.axios.get(this.$config.API +'references/products').then((response1) => {
+                        this.valueProduct = response1.data
+                        this.axios.get(this.$config.API +'invoices/' + this.$localStorage.get('user').id).then((response) => {
+                            this.dop = response.data
+                            this.body = response.data.map(function (invoice) {
+                                invoice.movingProducts = [{product: '', pack: ''}]
+
+                                invoice.movingProducts = invoice.products.map(function (moving) {
+                                        return {
+                                            pack: moving.InvoiceProducts.packId,
+                                            product: moving.id
+                                        }
+                                    })
+                                return invoice
+                            })
+                            this.tableData = this.body
+                        });
+                    });
+                });
+
+
+            }
         },
         components: {
             InvoiceView
+        },
+        created() {
+            console.log(this.valuePack.find(x => x.id === 1))
+            this.handleGetInvoices()
         }
     }
 

@@ -59,7 +59,7 @@
             </el-collapse-item>
         </el-collapse>
         <el-table
-                :data="tableData"
+                :data="tableData.rows"
                 style="width: 100%">
 
             <el-table-column type="expand">
@@ -276,9 +276,12 @@
         <el-pagination
                 id = "pagePag"
                 background
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
                 layout="prev, pager, next"
-                :current-page = page
-                :total="100">
+                :current-page.sync="page"
+                :page-size="count"
+                :total="totaly">
         </el-pagination>
     </div>
 </template>
@@ -291,6 +294,8 @@
             return {
                 activeNames: '1',
                 page: '1',
+                count: '10',
+                totaly: '100',
                 filter: {
                     name: '',
                     pickerOptions1: {
@@ -434,7 +439,7 @@
 
             },
             handleGetOrder() {
-                this.axios.get(this.$config.API +'orders/point').then((response) => {
+                this.axios.get(this.$config.API +'orders/point/' + this.page).then((response) => {
                     this.tableData = response.data
                 });
             },
@@ -448,9 +453,16 @@
                     this.valueDefect = response.data
                 });
             },
+            handleSizeChange(val) {
+                console.log(`${val} items per page`);
+            },
+            handleCurrentChange(val) {
+                console.log(`current page: ${val}`);
+            },
             handleChange(value) {
                 console.log(value);
             }
+
         },
         created() {
             this.handleGetOrder();
