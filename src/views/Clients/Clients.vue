@@ -10,7 +10,7 @@
         </el-row>
         <Line></Line>
         <el-table
-                :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+                :data="clients.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
                 style="width: 100%">
             <el-table-column
                     type="index"
@@ -67,8 +67,8 @@
 </template>
 
 <script>
-    import ClientAdd from '../components/ClientAdd'
-    import ClientEdit from '../components/ClientEdit'
+    import ClientAdd from './ClientAdd'
+    import ClientEdit from './ClientEdit'
     export default {
         name: "Clients",
         data() {
@@ -77,11 +77,14 @@
                 search: '',
             }
         },
+        computed: {
+            clients() {
+                return this.$store.state.clients;
+            }
+        },
         methods: {
             handleDelete(index, row) {
-                this.axios.delete(this.$config.API +'references/clients/' + row.id).then((response) => {
-                    this.handleUpdate();
-                });
+                this.$store.dispatch('deleteClient', row.id)
             },
             handleUpdate() {
                 this.axios.get(this.$config.API +'references/clients').then((response) => {

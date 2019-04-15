@@ -34,6 +34,7 @@
             Sidebar
         },
         created() {
+            this.$store.dispatch('initStore');
             if(this.$route.name != 'login' && this.$localStorage.get('user') === null)
                 this.$router.push({ path: 'login' })
         }
