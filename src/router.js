@@ -10,7 +10,7 @@ import Models from "./views/Models";
 import Views from "./views/Views";
 import Help from "./views/Help";
 import Providers from "./views/Providers";
-import Packs from "./views/Packs";
+import Packs from "./views/Packs/Packs";
 import Statuces from "./views/Statuces";
 import Services from "./views/Services";
 import Defects from "./views/Defects";

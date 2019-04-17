@@ -1,10 +1,9 @@
 <template>
     <div>
         <el-button
-                id="roundButton"
-                type="success"
+                type="primary"
                 size="medium"
-                icon="el-icon-plus"
+                icon="el-icon-edit"
                 @click="dialogVisible = true"
                 circle></el-button>
         <el-dialog
@@ -13,15 +12,15 @@
                 width="50%"
                 :before-close="handleClose">
 
-            <el-form label-position='left' ref="form" :model="form" label-width="150px">
-                <el-form-item label="Наименование">
+            <el-form label-position='left' ref="form" status-icon :rules="rules" :model="form" label-width="150px">
+                <el-form-item label="Наименование" prop="name">
                     <el-input v-model="form.name" autocomplete="off"></el-input>
                 </el-form-item>
             </el-form>
 
             <span slot="footer" class="dialog-footer">
             <el-button @click="handleClose">Отмена</el-button>
-            <el-button type="primary" @click="handleAddDate()">Сохранить</el-button>
+            <el-button type="primary" @click="handleEditDate()">Сохранить</el-button>
           </span>
         </el-dialog>
     </div>
@@ -29,32 +28,38 @@
 
 <script>
     export default {
-        name: "PackAdd",
+        name: "PackEdit",
         data() {
             return {
                 dialogVisible: false,
-                form: {
-                    name: ''
+                rules: {
+                    name: [
+                        {required: true, message: 'Пожалуйста, введите название упаковки', trigger: 'blur'},
+                        {min: 3, max: 30, message: 'Допустимая длинна от 3 до 30 символов', trigger: 'blur'}
+                    ],
                 }
             }
         },
+        props: ['form'],
         methods: {
-            onSubmit() {
-                console.log('submit!');
-            },
             handleClose(done) {
                 this.$confirm('Вы действительно хотите закрыть этот диалог?')
                     .then(_ => {
                         this.dialogVisible = false;
-                        this.$emit('update');
+                        this.$store.dispatch('getPacks')
                         done();
                     })
                     .catch(_ => {});
             },
-            handleAddDate() {
-                this.dialogVisible = false
-                this.axios.post(this.$config.API +'references/packs', this.form).then((response) => {
-                    this.$emit('update');
+            handleEditDate() {
+                this.$refs['form'].validate((valid) => {
+                    if (valid) {
+                        this.$store.dispatch('editPack', this.form)
+                        this.dialogVisible = false
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
                 });
             },
         }
@@ -62,7 +67,5 @@
 </script>
 
 <style scoped>
-    #roundButton {
-        margin-top: 15px;
-    }
+
 </style>

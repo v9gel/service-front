@@ -10,7 +10,7 @@
         </el-row>
         <Line></Line>
         <el-table
-                :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+                :data="packs.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
                 style="width: 100%">
             <el-table-column
                     type="index"
@@ -33,7 +33,7 @@
                 <template slot-scope="scope">
                     <el-row :gutter="24">
                         <el-col :span="21">
-                            <PackEdit :form=scope.row v-on:update="handleUpdate"></PackEdit>
+                            <PackEdit :form=scope.row></PackEdit>
                         </el-col>
                         <el-col :span="3">
                             <el-button
@@ -51,30 +51,24 @@
 </template>
 
 <script>
-    import PackAdd from "../components/PackAdd";
-    import PackEdit from "../components/PackEdit";
+    import PackAdd from "./PackAdd";
+    import PackEdit from "./PackEdit";
     export default {
         name: "Packs",
         data() {
             return {
-                tableData: null,
                 search: '',
+            }
+        },
+        computed: {
+            packs() {
+                return this.$store.state.packs;
             }
         },
         methods: {
             handleDelete(index, row) {
-                this.axios.delete(this.$config.API +'references/packs/' + row.id).then((response) => {
-                    this.handleUpdate();
-                });
-            },
-            handleUpdate() {
-                this.axios.get(this.$config.API +'references/packs').then((response) => {
-                    this.tableData = response.data
-                });
-            },
-        },
-        created() {
-            this.handleUpdate();
+                this.$store.dispatch('deletePack', row.id)
+            }
         },
         components: {
             PackEdit,

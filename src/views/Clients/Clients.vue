@@ -48,7 +48,7 @@
                 <template slot-scope="scope">
                     <el-row :gutter="24">
                         <el-col :span="17">
-                            <ClientEdit :form=scope.row v-on:update="handleUpdate"></ClientEdit>
+                            <ClientEdit :form=scope.row></ClientEdit>
                         </el-col>
                         <el-col :span="7">
                             <el-button
@@ -85,15 +85,7 @@
         methods: {
             handleDelete(index, row) {
                 this.$store.dispatch('deleteClient', row.id)
-            },
-            handleUpdate() {
-                this.axios.get(this.$config.API +'references/clients').then((response) => {
-                    this.tableData = response.data
-                });
-            },
-        },
-        created() {
-            this.handleUpdate();
+            }
         },
         components: {
             ClientEdit,
