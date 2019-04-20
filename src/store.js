@@ -7,7 +7,7 @@ var API = 'http://localhost:3000';
 export default new Vuex.Store({
   state: {
     orders: [],
-      
+
     clients: [],
     packs: [],
     models:[],

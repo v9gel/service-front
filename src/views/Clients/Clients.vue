@@ -10,7 +10,7 @@
         </el-row>
         <Line></Line>
         <el-table
-                :data="clients.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+                :data="clients.filter(data => !search || data.surname.toLowerCase().includes(search.toLowerCase()))"
                 style="width: 100%">
             <el-table-column
                     type="index"
