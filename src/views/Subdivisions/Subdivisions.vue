@@ -2,10 +2,10 @@
     <div>
         <el-row :gutter="24">
             <el-col :span="1">
-                <ActivitieAdd v-on:update="handleUpdate()"></ActivitieAdd>
+                <SubdivisionsAdd v-on:update="handleUpdate()"></SubdivisionsAdd>
             </el-col>
             <el-col :span="23">
-                <h2>Виды деятельности</h2>
+                <h2>Подразделения</h2>
             </el-col>
         </el-row>
         <Line></Line>
@@ -27,6 +27,11 @@
                     prop="name">
             </el-table-column>
             <el-table-column
+                    label="Вид деятельности"
+                    width="200"
+                    prop="activity.name">
+            </el-table-column>
+            <el-table-column
                     width="500"
                     align="right">
                 <template slot="header" slot-scope="scope">
@@ -38,7 +43,7 @@
                 <template slot-scope="scope">
                     <el-row :gutter="24">
                         <el-col :span="20">
-                            <ActivitieEdit :form=scope.row v-on:update="handleUpdate"></ActivitieEdit>
+                            <SubdivisionsEdit :form=scope.row v-on:update="handleUpdate"></SubdivisionsEdit>
                         </el-col>
                         <el-col :span="4">
                             <el-button
@@ -48,6 +53,7 @@
                                     @click="handleDelete(scope.$index, scope.row)"
                                     circle></el-button>
                         </el-col>
+
                     </el-row>
                 </template>
             </el-table-column>
@@ -56,10 +62,10 @@
 </template>
 
 <script>
-    import ActivitieEdit from '../components/ActivitieEdit';
-    import ActivitieAdd from "../components/ActivitieAdd";
+    import SubdivisionsAdd from "./SubdivisionsAdd";
+    import SubdivisionsEdit from "./SubdivisionsEdit";
     export default {
-        name: "Activities",
+        name: "Subdivisions",
         data() {
             return {
                 tableData: null,
@@ -68,12 +74,12 @@
         },
         methods: {
             handleDelete(index, row) {
-                this.axios.delete(this.$config.API +'references/activities/' + row.id).then((response) => {
+                this.axios.delete(this.$config.API +'references/subdivisions/' + row.id).then((response) => {
                     this.handleUpdate();
                 });
             },
             handleUpdate() {
-                this.axios.get(this.$config.API +'references/activities').then((response) => {
+                this.axios.get(this.$config.API +'references/subdivisions').then((response) => {
                     this.tableData = response.data
                 });
             },
@@ -82,8 +88,8 @@
             this.handleUpdate();
         },
         components: {
-            ActivitieAdd,
-            ActivitieEdit
+            SubdivisionsEdit,
+            SubdivisionsAdd
         },
     }
 </script>

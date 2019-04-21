@@ -2,10 +2,10 @@
     <div>
         <el-row :gutter="24">
             <el-col :span="1">
-                <ModelAdd v-on:update="handleUpdate()"></ModelAdd>
+                <ViewsAdd v-on:update="handleUpdate()"></ViewsAdd>
             </el-col>
             <el-col :span="23">
-                <h2>Модели</h2>
+                <h2>Виды техники</h2>
             </el-col>
         </el-row>
         <Line></Line>
@@ -27,17 +27,7 @@
                     prop="name">
             </el-table-column>
             <el-table-column
-                    label="Вид техники"
-                    width="200"
-                    prop="view.name">
-            </el-table-column>
-            <el-table-column
-                    label="Производитель"
-                    width="200"
-                    prop="provider.name">
-            </el-table-column>
-            <el-table-column
-                    width="300"
+                    width="500"
                     align="right">
                 <template slot="header" slot-scope="scope">
                     <el-input
@@ -47,10 +37,10 @@
                 </template>
                 <template slot-scope="scope">
                     <el-row :gutter="24">
-                        <el-col :span="18">
-                            <ModelEdit :form=scope.row v-on:update="handleUpdate"></ModelEdit>
+                        <el-col :span="20">
+                            <ViewsEdit :form=scope.row v-on:update="handleUpdate"></ViewsEdit>
                         </el-col>
-                        <el-col :span="6">
+                        <el-col :span="4">
                             <el-button
                                     type="danger"
                                     size="medium"
@@ -58,6 +48,7 @@
                                     @click="handleDelete(scope.$index, scope.row)"
                                     circle></el-button>
                         </el-col>
+
                     </el-row>
                 </template>
             </el-table-column>
@@ -66,10 +57,11 @@
 </template>
 
 <script>
-    import ModelAdd from "../components/ModelAdd";
-    import ModelEdit from "../components/ModelEdit";
+    import ViewsAdd from "./ViewsAdd";
+    import ViewsEdit from "./ViewsEdit";
     export default {
-        name: "Models",
+        name: "Views",
+        components: {ViewsEdit, ViewsAdd},
         data() {
             return {
                 tableData: null,
@@ -78,22 +70,18 @@
         },
         methods: {
             handleDelete(index, row) {
-                this.axios.delete(this.$config.API +'references/models/' + row.id).then((response) => {
+                this.axios.delete(this.$config.API +'references/views/' + row.id).then((response) => {
                     this.handleUpdate();
                 });
             },
             handleUpdate() {
-                this.axios.get(this.$config.API +'references/models').then((response) => {
+                this.axios.get(this.$config.API +'references/views').then((response) => {
                     this.tableData = response.data
                 });
             },
         },
         created() {
             this.handleUpdate();
-        },
-        components: {
-            ModelEdit,
-            ModelAdd,
         },
     }
 </script>

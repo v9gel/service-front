@@ -2,10 +2,10 @@
     <div>
         <el-row :gutter="24">
             <el-col :span="1">
-                <ServiceAdd v-on:update="handleUpdate()"></ServiceAdd>
+                <ModelAdd v-on:update="handleUpdate()"></ModelAdd>
             </el-col>
             <el-col :span="23">
-                <h2>Услуги</h2>
+                <h2>Модели</h2>
             </el-col>
         </el-row>
         <Line></Line>
@@ -27,7 +27,17 @@
                     prop="name">
             </el-table-column>
             <el-table-column
-                    width="500"
+                    label="Вид техники"
+                    width="200"
+                    prop="view.name">
+            </el-table-column>
+            <el-table-column
+                    label="Производитель"
+                    width="200"
+                    prop="provider.name">
+            </el-table-column>
+            <el-table-column
+                    width="300"
                     align="right">
                 <template slot="header" slot-scope="scope">
                     <el-input
@@ -37,10 +47,10 @@
                 </template>
                 <template slot-scope="scope">
                     <el-row :gutter="24">
-                        <el-col :span="20">
-                            <ServiceEdit :form=scope.row v-on:update="handleUpdate"></ServiceEdit>
+                        <el-col :span="18">
+                            <ModelEdit :form=scope.row v-on:update="handleUpdate"></ModelEdit>
                         </el-col>
-                        <el-col :span="4">
+                        <el-col :span="6">
                             <el-button
                                     type="danger"
                                     size="medium"
@@ -56,10 +66,10 @@
 </template>
 
 <script>
-    import ServiceAdd from "../components/ServiceAdd";
-    import ServiceEdit from "../components/ServiceEdit";
+    import ModelAdd from "./ModelAdd";
+    import ModelEdit from "./ModelEdit";
     export default {
-        name: "Services",
+        name: "Models",
         data() {
             return {
                 tableData: null,
@@ -68,12 +78,12 @@
         },
         methods: {
             handleDelete(index, row) {
-                this.axios.delete(this.$config.API +'references/services/' + row.id).then((response) => {
+                this.axios.delete(this.$config.API +'references/models/' + row.id).then((response) => {
                     this.handleUpdate();
                 });
             },
             handleUpdate() {
-                this.axios.get(this.$config.API +'references/services').then((response) => {
+                this.axios.get(this.$config.API +'references/models').then((response) => {
                     this.tableData = response.data
                 });
             },
@@ -82,8 +92,8 @@
             this.handleUpdate();
         },
         components: {
-            ServiceEdit,
-            ServiceAdd
+            ModelEdit,
+            ModelAdd,
         },
     }
 </script>

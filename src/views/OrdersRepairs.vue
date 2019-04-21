@@ -255,7 +255,7 @@
 </template>
 
 <script>
-    import OrderView from '../components/OrderView'
+    import OrderView from './Orders/OrderView'
     export default {
         name: "OrdersRepairs",
         data() {

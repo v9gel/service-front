@@ -2,10 +2,10 @@
     <div>
         <el-row :gutter="24">
             <el-col :span="1">
-                <ProviderAdd v-on:update="handleUpdate()"></ProviderAdd>
+                <DefectAdd v-on:update="handleUpdate()"></DefectAdd>
             </el-col>
             <el-col :span="23">
-                <h2>Производители техники</h2>
+                <h2>Дефекты</h2>
             </el-col>
         </el-row>
         <Line></Line>
@@ -38,7 +38,7 @@
                 <template slot-scope="scope">
                     <el-row :gutter="24">
                         <el-col :span="20">
-                            <ProviderEdit :form=scope.row v-on:update="handleUpdate"></ProviderEdit>
+                            <DefectEdit :form=scope.row v-on:update="handleUpdate"></DefectEdit>
                         </el-col>
                         <el-col :span="4">
                             <el-button
@@ -48,6 +48,7 @@
                                     @click="handleDelete(scope.$index, scope.row)"
                                     circle></el-button>
                         </el-col>
+
                     </el-row>
                 </template>
             </el-table-column>
@@ -56,10 +57,10 @@
 </template>
 
 <script>
-    import ProviderAdd from "../components/ProviderAdd";
-    import ProviderEdit from "../components/ProviderEdit";
+    import DefectAdd from './DefectAdd'
+    import DefectEdit from './DefectEdit';
     export default {
-        name: "Providers",
+        name: "Defects",
         data() {
             return {
                 tableData: null,
@@ -68,12 +69,12 @@
         },
         methods: {
             handleDelete(index, row) {
-                this.axios.delete(this.$config.API +'references/providers/' + row.id).then((response) => {
+                this.axios.delete(this.$config.API +'references/defects/' + row.id).then((response) => {
                     this.handleUpdate();
                 });
             },
             handleUpdate() {
-                this.axios.get(this.$config.API +'references/providers').then((response) => {
+                this.axios.get(this.$config.API +'references/defects').then((response) => {
                     this.tableData = response.data
                 });
             },
@@ -82,8 +83,8 @@
             this.handleUpdate();
         },
         components: {
-            ProviderEdit,
-            ProviderAdd
+            DefectEdit,
+            DefectAdd
         },
     }
 </script>

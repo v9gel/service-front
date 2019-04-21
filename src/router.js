@@ -2,23 +2,23 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Login from "./views/Login";
-import Orders from "./views/Orders";
+import Orders from "./views/Orders/Orders";
 import References from "./views/References";
 import Clients from "./views/Clients/Clients";
 import OneClient from "./views/OneClient";
-import Models from "./views/Models";
-import Views from "./views/Views";
+import Models from "./views/Models/Models";
+import Views from "./views/Views/Views";
 import Help from "./views/Help";
-import Providers from "./views/Providers";
+import Providers from "./views/Providers/Providers";
 import Packs from "./views/Packs/Packs";
-import Statuces from "./views/Statuces";
-import Services from "./views/Services";
-import Defects from "./views/Defects";
+import Statuces from "./views/Statuces/Statuces";
+import Services from "./views/Services/Services";
+import Defects from "./views/Defects/Defects";
 import Units from "./views/Units";
 import Invoice from "./views/Invoice";
 import OrdersRepairs from "./views/OrdersRepairs";
-import Activities from "./views/Activities";
-import Subdivisions from "./views/Subdivisions";
+import Activities from "./views/Activities/Activities";
+import Subdivisions from "./views/Subdivisions/Subdivisions";
 Vue.use(Router)
 
 export default new Router({

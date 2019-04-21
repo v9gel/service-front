@@ -35,8 +35,8 @@ export default new Vuex.Store({
     setViews(state, views){
       state.views = views
     },
-    setStatuces(state, statuces){
-      state.statuces = statuces
+    setStatuses(state, statuses){
+      state.statuses = statuses
     },
     setServices(state, services){
       state.services = services
@@ -50,22 +50,18 @@ export default new Vuex.Store({
     setActivities(state, activities){
       state.activities = activities
     },
-
-
-
-
   },
   actions: {
     initStore({dispatch}){
       dispatch('getClients');
       dispatch('getPacks');
-        dispatch('setModels');
-        dispatch('setViews');
-        dispatch('setStatuces');
-        dispatch('setServices');
-        dispatch('setDefects');
-        dispatch('setSubdivisions');
-        dispatch('setActivities');
+        dispatch('getModels');
+        dispatch('getViews');
+        dispatch('getStatuces');
+        dispatch('getServices');
+        dispatch('getDefects');
+        dispatch('getSubdivisions');
+        dispatch('getActivities');
     },
     getClients({commit}){
       Vue.axios.get(API +'/references/clients')
@@ -126,6 +122,246 @@ export default new Vuex.Store({
                   dispatch('getPacks')
               }
           });
-    }
+    },
+    getProviders({commit}){
+    Vue.axios.get(API +'/references/providers')
+      .then((response) => {
+          commit('setProviders', response.data)
+      });
+    },
+    addProvider({dispatch}, client){
+    Vue.axios.post(API +'/references/providers', client)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getProviders')
+          }
+      });
+    },
+    editProvider({dispatch}, client){
+    Vue.axios.post(API +'/references/providers/' + client.id, client)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getProviders')
+          }
+      });
+    },
+    deleteProvider({dispatch}, id){
+    Vue.axios.delete(API +'/references/providers/' + id)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getProviders')
+          }
+      });
+    },
+    getSubdivisions({commit}){
+    Vue.axios.get(API +'/references/subdivisions')
+      .then((response) => {
+          commit('setSubdivisions', response.data)
+      });
+    },
+    addSubdivision({dispatch}, client){
+    Vue.axios.post(API +'/references/subdivisions', client)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getSubdivisions')
+          }
+      });
+    },
+    editSubdivision({dispatch}, client){
+    Vue.axios.post(API +'/references/subdivisions/' + client.id, client)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getSubdivisions')
+          }
+      });
+    },
+    deleteSubdivision({dispatch}, id){
+    Vue.axios.delete(API +'/references/subdivisions/' + id)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getSubdivisions')
+          }
+      });
+    },
+    getActivities({commit}){
+    Vue.axios.get(API +'/references/activities')
+      .then((response) => {
+          commit('setActivities', response.data)
+      });
+    },
+    addActivitie({dispatch}, client){
+    Vue.axios.post(API +'/references/activities', client)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getActivities')
+          }
+      });
+    },
+    editActivitie({dispatch}, client){
+    Vue.axios.post(API +'/references/activities/' + client.id, client)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getActivities')
+          }
+      });
+    },
+    deleteActivitie({dispatch}, id){
+    Vue.axios.delete(API +'/references/activities/' + id)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getActivities')
+          }
+      });
+    },
+    getDefects({commit}){
+    Vue.axios.get(API +'/references/defects')
+      .then((response) => {
+          commit('setDefects', response.data)
+      });
+    },
+    addDefect({dispatch}, client){
+    Vue.axios.post(API +'/references/defects', client)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getDefects')
+          }
+      });
+    },
+    editDefect({dispatch}, client){
+    Vue.axios.post(API +'/references/defects/' + client.id, client)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getDefects')
+          }
+      });
+    },
+    deleteDefect({dispatch}, id){
+    Vue.axios.delete(API +'/references/defects/' + id)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getDefects')
+          }
+      });
+    },
+    getOrders({commit}){
+    Vue.axios.get(API +'/references/orders')
+      .then((response) => {
+          commit('gesOrders', response.data)
+      });
+    },
+    addOrder({dispatch}, client){
+    Vue.axios.post(API +'/references/orders', client)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getOrders')
+          }
+      });
+    },
+    editOrder({dispatch}, client){
+    Vue.axios.post(API +'/references/orders/' + client.id, client)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getOrders')
+          }
+      });
+    },
+    deleteOrder({dispatch}, id){
+    Vue.axios.delete(API +'/references/orders/' + id)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getOrders')
+          }
+      });
+    },
+    getServices({commit}){
+    Vue.axios.get(API +'/references/services')
+      .then((response) => {
+          commit('setServices', response.data)
+      });
+    },
+    addService({dispatch}, client){
+    Vue.axios.post(API +'/references/services', client)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getServices')
+          }
+      });
+    },
+    editService({dispatch}, client){
+    Vue.axios.post(API +'/references/services/' + client.id, client)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getServices')
+          }
+      });
+    },
+    deleteService({dispatch}, id){
+    Vue.axios.delete(API +'/references/services/' + id)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getServices')
+          }
+      });
+    },
+    getStatuses({commit}){
+    Vue.axios.get(API +'/references/statuses')
+      .then((response) => {
+          commit('setStatuses', response.data)
+      });
+    },
+    addStatus({dispatch}, client){
+    Vue.axios.post(API +'/references/statuses', client)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getStatuses')
+          }
+      });
+    },
+    editStatus({dispatch}, client){
+    Vue.axios.post(API +'/references/statuses/' + client.id, client)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getStatuses')
+          }
+      });
+    },
+    deleteStatus({dispatch}, id){
+    Vue.axios.delete(API +'/references/statuses/' + id)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getStatuses')
+          }
+      });
+    },
+    getViews({commit}){
+    Vue.axios.get(API +'/references/views')
+      .then((response) => {
+          commit('setViews', response.data)
+      });
+    },
+    addView({dispatch}, client){
+    Vue.axios.post(API +'/references/views', client)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getViews')
+          }
+      });
+    },
+    editView({dispatch}, client){
+    Vue.axios.post(API +'/references/views/' + client.id, client)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getViews')
+          }
+      });
+    },
+    deleteView({dispatch}, id){
+    Vue.axios.delete(API +'/references/views/' + id)
+      .then((response) => {
+          if(response.data.msg === 'ok'){
+              dispatch('getViews')
+          }
+      });
+    },
   }
 })

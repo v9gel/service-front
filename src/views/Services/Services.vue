@@ -2,10 +2,10 @@
     <div>
         <el-row :gutter="24">
             <el-col :span="1">
-                <StatusAdd v-on:update="handleUpdate()"></StatusAdd>
+                <ServiceAdd v-on:update="handleUpdate()"></ServiceAdd>
             </el-col>
             <el-col :span="23">
-                <h2>Статусы</h2>
+                <h2>Услуги</h2>
             </el-col>
         </el-row>
         <Line></Line>
@@ -17,8 +17,13 @@
                     width="50">
             </el-table-column>
             <el-table-column
+                    label="Шифр"
+                    width="100"
+                    prop="code">
+            </el-table-column>
+            <el-table-column
                     label="Наименование"
-                    width="300"
+                    width="200"
                     prop="name">
             </el-table-column>
             <el-table-column
@@ -32,10 +37,10 @@
                 </template>
                 <template slot-scope="scope">
                     <el-row :gutter="24">
-                        <el-col :span="21">
-                            <StatusEdit :form=scope.row v-on:update="handleUpdate"></StatusEdit>
+                        <el-col :span="20">
+                            <ServiceEdit :form=scope.row v-on:update="handleUpdate"></ServiceEdit>
                         </el-col>
-                        <el-col :span="3">
+                        <el-col :span="4">
                             <el-button
                                     type="danger"
                                     size="medium"
@@ -51,10 +56,10 @@
 </template>
 
 <script>
-    import StatusAdd from "../components/StatusAdd";
-    import StatusEdit from "../components/StatusEdit";
+    import ServiceAdd from "./ServiceAdd";
+    import ServiceEdit from "./ServiceEdit";
     export default {
-        name: "Statuces",
+        name: "Services",
         data() {
             return {
                 tableData: null,
@@ -63,12 +68,12 @@
         },
         methods: {
             handleDelete(index, row) {
-                this.axios.delete(this.$config.API +'references/statuses/' + row.id).then((response) => {
+                this.axios.delete(this.$config.API +'references/services/' + row.id).then((response) => {
                     this.handleUpdate();
                 });
             },
             handleUpdate() {
-                this.axios.get(this.$config.API +'references/statuses').then((response) => {
+                this.axios.get(this.$config.API +'references/services').then((response) => {
                     this.tableData = response.data
                 });
             },
@@ -77,8 +82,8 @@
             this.handleUpdate();
         },
         components: {
-            StatusEdit,
-            StatusAdd
+            ServiceEdit,
+            ServiceAdd
         },
     }
 </script>
